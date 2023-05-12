@@ -4,5 +4,6 @@ resolver = "2"
 members = [
 	"master-tutorial-frame",
 	"master-tutorial-ink",
-	"master-tutorial-frameless",
+	"master-tutorial-node",
+	"staging",
 ]
