@@ -33,9 +33,9 @@ pub mod pallet {
 		pub fn transfer(origin: OriginFor<T>, to: T::AccountId, amount: Balance) -> DispatchResult {
 			let sender = ensure_signed(origin)?;
 
-			let sender_balance = Balances::<T>::get(&sender).unwrap_or_default();
+			let sender_balance = Balances::<T>::get(&sender).ok_or("NonExistentAccount")?;
 			if sender_balance < amount {
-				return Err("notEnoughBalance".into())
+				return Err("notEnoughBalance".into());
 			}
 			let reminder = sender_balance - amount;
 
