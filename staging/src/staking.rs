@@ -15,6 +15,9 @@ pub mod pallet {
 
 		/// The minimum amount that a validator can bond.
 		type MinimumDelegatorBond: Get<Balance>;
+
+		/// The number of blocks after which we try and select a new validator set.
+		type EraDuration: Get<Self::BlockNumber>;
 	}
 
 	#[pallet::pallet]
@@ -22,7 +25,7 @@ pub mod pallet {
 
 	#[pallet::call]
 	impl<T: Config> Pallet<T> {
-		pub fn register(origin: OriginFor<T>, amount: Balance) -> DispatchResult {
+		pub fn bond(origin: OriginFor<T>, amount: Balance) -> DispatchResult {
 			unimplemented!()
 		}
 
