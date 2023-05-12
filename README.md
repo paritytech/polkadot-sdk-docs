@@ -1,2 +1,4 @@
 # polkadot-sdk-docs
-A holistic, minimal documentation portal for the Polkadot developers. 
+
+A holistic, minimal documentation portal for the Polkadot developers.
+

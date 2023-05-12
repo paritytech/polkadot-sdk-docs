@@ -1407,6 +1407,13 @@ dependencies = [
 [[package]]
 name = "master-tutorial-frame"
 version = "0.1.0"
+dependencies = [
+ "frame",
+ "frame-support",
+ "frame-system",
+ "parity-scale-codec",
+ "scale-info",
+]
 
 [[package]]
 name = "master-tutorial-ink"

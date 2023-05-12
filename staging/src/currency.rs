@@ -35,7 +35,7 @@ pub mod pallet {
 
 			let sender_balance = Balances::<T>::get(&sender).unwrap_or_default();
 			if sender_balance < amount {
-				return Err("notEnoughBalance".into());
+				return Err("notEnoughBalance".into())
 			}
 			let reminder = sender_balance - amount;
 
@@ -49,8 +49,7 @@ pub mod pallet {
 	#[cfg(test)]
 	mod tests {
 		use super::*;
-		use frame::testing::prelude::*;
-		use frame::{primitives, traits};
+		use frame::{primitives, testing::prelude::*, traits};
 
 		type Extrinsic = MockUncheckedExtrinsic<Runtime>;
 		type Block = MockBlock<Runtime>;

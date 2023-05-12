@@ -4,3 +4,10 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+frame = { path =  "../../substrate/frame" }
+
+# These are needed by macros but not used directly. Too bad.
+frame-system = { path =  "../../substrate/frame/system" }
+frame-support = { path =  "../../substrate/frame/support" }
+parity-scale-codec = { version = "3.0.0" }
+scale-info = { version = "2.6.0" }
