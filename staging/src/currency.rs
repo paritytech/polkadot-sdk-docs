@@ -35,7 +35,7 @@ pub mod pallet {
 
 			let sender_balance = Balances::<T>::get(&sender).ok_or("NonExistentAccount")?;
 			if sender_balance < amount {
-				return Err("notEnoughBalance".into());
+				return Err("notEnoughBalance".into())
 			}
 			let reminder = sender_balance - amount;
 
@@ -54,9 +54,11 @@ pub mod pallet {
 		type Extrinsic = MockUncheckedExtrinsic<Runtime>;
 		type Block = MockBlock<Runtime>;
 
-		frame_support::construct_runtime!(
+		construct_runtime!(
 			pub struct Runtime
 			where
+				// It really sucks that we have to specify these... but there is really no way.
+				// https://github.com/paritytech/substrate/issues/14126
 				Block = Block,
 				NodeBlock = Block,
 				UncheckedExtrinsic = Extrinsic,
@@ -66,31 +68,32 @@ pub mod pallet {
 			}
 		);
 
-		impl frame_system::Config for Runtime {
+		impl frame::low_level::frame_system::Config for Runtime {
 			type RuntimeOrigin = RuntimeOrigin;
 			type RuntimeCall = RuntimeCall;
 			type RuntimeEvent = RuntimeEvent;
 			type PalletInfo = PalletInfo;
-
-			type BlockWeights = ();
-			type BlockLength = ();
-			type Index = u64;
-			type BlockNumber = u64;
-			type AccountId = u64;
 			type BaseCallFilter = frame::traits::Everything;
+			type OnSetCode = ();
+
+			type AccountId = u64;
+
+			type BlockNumber = u64;
 			type Hash = primitives::H256;
 			type Hashing = primitives::BlakeTwo256;
 			type Lookup = traits::IdentityLookup<Self::AccountId>;
 			type Header = <Block as traits::Block>::Header;
 			type BlockHashCount = traits::ConstU64<250>;
 			type MaxConsumers = traits::ConstU32<16>;
+			type BlockWeights = ();
+			type BlockLength = ();
+			type Index = u64;
 			type Version = ();
 			type AccountData = ();
 			type OnNewAccount = ();
 			type OnKilledAccount = ();
 			type SystemWeightInfo = ();
 			type SS58Prefix = ();
-			type OnSetCode = ();
 			type DbWeight = ();
 		}
 
@@ -149,7 +152,7 @@ pub mod pallet {
 					50
 				));
 
-				// them:
+				// then:
 				assert_eq!(pallet::Balances::<Runtime>::get(&ALICE), Some(50));
 				assert_eq!(pallet::Balances::<Runtime>::get(&BOB), Some(150));
 				assert_eq!(pallet::TotalIssuance::<Runtime>::get(), 200);
@@ -164,6 +167,23 @@ pub mod pallet {
 				// then:
 				assert_eq!(pallet::Balances::<Runtime>::get(&ALICE), Some(100));
 				assert_eq!(pallet::Balances::<Runtime>::get(&BOB), Some(100));
+				assert_eq!(pallet::TotalIssuance::<Runtime>::get(), 200);
+			});
+		}
+
+		#[test]
+		fn transfer_from_non_existent_fails() {
+			test_state().execute_with(|| {
+				// given the the initial state, when:
+				assert_err!(
+					pallet::Pallet::<Runtime>::transfer(RuntimeOrigin::signed(EVE), ALICE, 10),
+					"NonExistentAccount"
+				);
+
+				// then nothing has changed.
+				assert_eq!(pallet::Balances::<Runtime>::get(&ALICE), Some(100));
+				assert_eq!(pallet::Balances::<Runtime>::get(&BOB), Some(100));
+				assert_eq!(pallet::Balances::<Runtime>::get(&EVE), None);
 				assert_eq!(pallet::TotalIssuance::<Runtime>::get(), 200);
 			});
 		}
