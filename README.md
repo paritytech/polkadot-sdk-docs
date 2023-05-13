@@ -14,9 +14,10 @@ Each step of the tutorial has a branch. To minimize merge conflicts, the branche
 * an interactive tutorial
 * ... 
 
-The existing branches are: 
+For each step, the goal is to compare it with the previous step, and the changes to `.rs` files should ideally contain the main substance of that step. For example, comparing step2 and step1 would look like [this](https://github.com/paritytech/polkadot-sdk-docs/compare/step-1-simple-currency...step-2-testing).
+
+The existing branches: 
 
 - https://github.com/paritytech/polkadot-sdk-docs/tree/step-0-beginner-code
 - https://github.com/paritytech/polkadot-sdk-docs/tree/step-1-simple-currency
 - https://github.com/paritytech/polkadot-sdk-docs/tree/step-2-testing
-- 
