@@ -35,7 +35,7 @@ pub mod pallet {
 
 			let sender_balance = Balances::<T>::get(&sender).ok_or("NonExistentAccount")?;
 			if sender_balance < amount {
-				return Err("notEnoughBalance".into())
+				return Err("notEnoughBalance".into());
 			}
 			let reminder = sender_balance - amount;
 
@@ -68,7 +68,7 @@ pub mod pallet {
 			}
 		);
 
-		impl frame::low_level::frame_system::Config for Runtime {
+		impl frame::deps::frame_system::Config for Runtime {
 			type RuntimeOrigin = RuntimeOrigin;
 			type RuntimeCall = RuntimeCall;
 			type RuntimeEvent = RuntimeEvent;
