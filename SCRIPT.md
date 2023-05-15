@@ -2,8 +2,8 @@
 
 ## Part 0: What are we building?
 
-- What was a runtime and pallet again? 
-- What is the anatomy of a pallet? 
+- What was a runtime and pallet again?
+- What is the anatomy of a pallet?
 	- config, call, pallet, event, error, hook
 
 ## Part 1: Build a simple balance pallet
@@ -11,33 +11,33 @@
 ### Step 1: Simplest pallet
 - `type Balances = StorageMap<Key = T::AccountId, Value = Balance>`
 - `type TotalIssuance = StorageValue<Balance>`
-- basic call to `transfer` from a to b. 
+- basic call to `transfer` from a to b.
 - basic call to mint if anyone is calling
-- 100% using `dev_mode`. 
+- 100% using `dev_mode`.
 
 ### Step 2 : Tests
 - Adding pallet to a mock runtime.
-- basic tests. 
+- basic tests.
 - introduction to all interactions
 
-### Step 3: Interactioins
-- Adding pallet to the node-template runtime 
+### Step 3: Interactions
 
-#### PJS-API
+#### Adding pallet to the node-template runtime + `#[pallet::genesis_config]`
 
-#### `#[pallet::genesis_config]`
-- We need to create some dummy accounts in each step. Surely there must be a better way...
+#### PJS-Apps
 
 #### subxt
 
 #### CAPI/PJS-API
 
-> After this, all steps should have an section where we update the tests according to the new steps, and interact with the chain using one or more of the tools 
+(Optional)
+
+> After this, all steps should have an section where we update the tests according to the new steps, and interact with the chain using one or more of the tools
 
 ## Part 2: Build a BROKEN Validator Selection Pallet
 
 ### Step 1: Basic Staking; use of `on_initialize`
-    
+
 - anyone can call `register(amount)`, which registers them as "wanna-be validator' with `amount` as their approval-stake.
 	- There's no means to unregister yourself for now.
 - anyone can call `delegate(who, amount)`, which increases the approval-stake of `who`.
@@ -46,11 +46,11 @@
 - every x blocks, we want to get the top `x` wanna-be validators based on approval-stake, to the best of our abilities.
 - write tests for this as well.
 
-But, before going any further,  we should acknowledge that this is broken in different ways. 
+But, before going any further,  we should acknowledge that this is broken in different ways.
 
 * We need to add reserves, and make funds not transferrable.
 	* A test can demonstrate this.
-* It is not Sybil irresistant + Scalable.
+* It is not Sybil resistent + Scalable.
 
 The full answer should be here: https://forum.polkadot.network/t/tellling-the-story-of-the-game-theory-behind-frame-pallets/2282/12?u=kianenigma
 
@@ -60,9 +60,9 @@ The full answer should be here: https://forum.polkadot.network/t/tellling-the-st
 - Fixing staking to use the reserves.
 - Updating tests.
 - Adding a reserve high enough for `register`.
-- Potentially adding an absolute maximum as well, a good segway into `CountedMap`. 
+- Potentially adding an absolute maximum as well, a good segway into `CountedMap`.
 
-> This will only fix this using the crypto-economic axis. Once we build a governance system, we will also allow the onchain governance to whitelist a set of accounts. 
+> This will only fix this using the crypto-economic axis. Once we build a governance system, we will also allow the onchain governance to whitelist a set of accounts.
 
 ### Step 3: Permissionless sort
 
@@ -74,35 +74,35 @@ TODO: I want to add another alternative here, where we gradually sort the list, 
 
 This can be considered optional.
 
-## Part 3: Facelift Session 
+## Part 3: Facelift Session
 
-> I plan to have multiple "facelift" stop points in the tutorial, where we make progress fast, but cut corners, and once we have something tangible, we come back to it. 
+> I plan to have multiple "facelift" stop points in the tutorial, where we make progress fast, but cut corners, and once we have something tangible, we come back to it.
 
-At this point, we have something that kinda kinda works. It is time to take a step back, and improve where we have cut corners. Ideas: 
+At this point, we have something that kinda kinda works. It is time to take a step back, and improve where we have cut corners. Ideas:
 - Start using safe math.
 - Start properly using pallet errors.
-- Start properly introducing events. 
-- Update tests to reflect both. `assert_events` as a practice. 
+- Start properly introducing events.
+- Update tests to reflect both. `assert_events` as a practice.
 - introduce `ensure_root`, us it for mint and other permissioned operations.
-- Loosly couple Staking and Currency.
+- Loosely couple Staking and Currency.
 	- First using a custom fake trait.
 	- Then using `fungibles::*`.
-- Introduce the concpet of `ExistentialDeposit` (good one, useful IRL). 
+- Introduce the concept of `ExistentialDeposit` (good one, useful IRL).
 - For account storage, use system (mehhh).
-- Talk about the choice of `Get<_>` as opposed to storage items for configurations. 
+- Talk about the choice of `Get<_>` as opposed to storage items for configurations.
 
 
-## Other Part Ideas: 
-- build a simple governance system. 
+## Other Part Ideas:
+- build a simple governance system.
 - build a sudo pallet. Or, build something that is like council but for validators, such that 3/4 of validators can dispatch anything. Anything that covers custom origins will be great.
-- build a liquid staking system where we issue representative tokens. If a governance pallet exists, making the liquid tokens usable for governance. 
+- build a liquid staking system where we issue representative tokens. If a governance pallet exists, making the liquid tokens usable for governance.
 - Still need a good reason to use a double/N map, and do a deep dive on storage.
-- At some point, really circle back to the fact that: This code is leveraging `transactional`, 
+- At some point, really circle back to the fact that: This code is leveraging `transactional`,
 - Adding transaction-payment and configuring it to the runtime.
 
 ## Appendix: List of all FRAME macros
 
-Useful to think what is being covered where. 
+Useful to think what is being covered where.
 
 - [ ] call
 - [ ] call_index(_)
