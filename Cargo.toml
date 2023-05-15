@@ -5,5 +5,6 @@ members = [
 	"master-tutorial-frame",
 	"master-tutorial-ink",
 	"master-tutorial-node",
-	"staging",
+	"staging-frame",
+	"staging-ink",
 ]
