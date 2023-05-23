@@ -2,9 +2,9 @@
 resolver = "2"
 
 members = [
-	"master-tutorial-frame",
-	"master-tutorial-ink",
-	"master-tutorial-node",
 	"staging-frame",
 	"staging-ink",
+	"staging-runtime",
+	"staging-runtime-native",
+	# "staging-node",
 ]
