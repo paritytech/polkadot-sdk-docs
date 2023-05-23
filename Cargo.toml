@@ -6,5 +6,5 @@ members = [
 	"staging-ink",
 	"staging-runtime",
 	"staging-runtime-native",
-	# "staging-node",
+	"staging-node",
 ]

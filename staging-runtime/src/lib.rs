@@ -12,6 +12,18 @@ use frame_runtime::{
 	CheckInherentsResult, InherentData, OpaqueMetadata,
 };
 
+// TODO: don't like this, it is a compromise for now.
+pub use frame::runtime::runtime_types_common::OpaqueBlock;
+
+// Make the WASM binary available.
+#[cfg(feature = "std")]
+include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
+
+#[cfg(feature = "std")]
+pub fn native_version() -> frame::runtime::NativeVersion {
+	frame::runtime::NativeVersion { runtime_version: VERSION, can_author_with: Default::default() }
+}
+
 #[frame::runtime::runtime_version]
 pub const VERSION: RuntimeVersion = RuntimeVersion {
 	spec_name: create_runtime_str!("node-template"),
@@ -31,8 +43,11 @@ const HOURS: BlockNumber = MINUTES * 60;
 const DAYS: BlockNumber = HOURS * 24;
 
 type BlockNumber = u32;
-type AccountId = frame_runtime::runtime_types_common::AccountId;
-type Balance = u128;
+pub type AccountId = frame_runtime::runtime_types_common::AccountId;
+pub type Balance = u128;
+pub type Signature = runtime_types_common::Signature;
+// TODO https://github.com/paritytech/substrate/issues/12649
+pub type Index = <Runtime as frame_system::Config>::Index;
 type Hash = frame::primitives::H256;
 
 type SignedExtra = (
@@ -47,7 +62,7 @@ type SignedExtra = (
 
 use frame_runtime::runtime_types_common;
 type Header = runtime_types_common::Header;
-type Block = runtime_types_common::BlockOf<RuntimeCall, SignedExtra>;
+pub type Block = runtime_types_common::BlockOf<RuntimeCall, SignedExtra>;
 type Extrinsic = runtime_types_common::ExtrinsicOf<Block>;
 // type SignedPayload = runtime_types_generic::SignedPayload<RuntimeCall, ()>;
 
@@ -63,7 +78,7 @@ frame::runtime::construct_runtime!(
 	pub struct Runtime
 	where
 		Block = Block,
-		NodeBlock = Block,
+		NodeBlock = OpaqueBlock,
 		UncheckedExtrinsic = Extrinsic,
 	{
 		System: frame_system,
@@ -170,6 +185,24 @@ impl_runtime_apis! {
 	impl frame_runtime::runtime_apis::OffchainWorkerApi<Block> for Runtime {
 		fn offchain_worker(header: &HeaderOf<Block>) {
 			Executive::offchain_worker(header)
+		}
+	}
+
+	impl frame_runtime::runtime_apis::SessionKeys<Block> for Runtime {
+		fn generate_session_keys(seed: Option<Vec<u8>>) -> Vec<u8> {
+			unimplemented!()
+		}
+
+		fn decode_session_keys(
+			encoded: Vec<u8>,
+		) -> Option<Vec<(Vec<u8>, frame_runtime::runtime_apis::KeyTypeId)>> {
+			unimplemented!()
+		}
+	}
+
+	impl frame_runtime::runtime_apis::AccountNonceApi<Block, AccountId, Index> for Runtime {
+		fn account_nonce(account: AccountId) -> Index {
+			System::account_nonce(account)
 		}
 	}
 }
