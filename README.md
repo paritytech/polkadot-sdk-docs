@@ -33,5 +33,7 @@ Existing steps:
 - https://github.com/paritytech/polkadot-sdk-docs/tree/step-0-beginner-code
 - https://github.com/paritytech/polkadot-sdk-docs/tree/step-1-simple-currency
 - https://github.com/paritytech/polkadot-sdk-docs/tree/step-2-testing
+- https://github.com/paritytech/polkadot-sdk-docs/tree/step-3-runtime-native
+- https://github.com/paritytech/polkadot-sdk-docs/tree/step-4-runtime-wasm
 
 In order to review each step, open the diff between step `n` and `n-1` in github, and ignore anything in `staging`.
