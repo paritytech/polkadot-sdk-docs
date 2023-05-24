@@ -1,5 +1,5 @@
 [package]
-name = "staging-node"
+name = "staging-node-manual-seal"
 version = "4.0.0-dev"
 description = "A fresh FRAME-based Substrate node, ready for hacking."
 authors = ["Substrate DevHub <https://github.com/substrate-developer-hub>"]
@@ -14,7 +14,7 @@ build = "build.rs"
 targets = ["x86_64-unknown-linux-gnu"]
 
 [[bin]]
-name = "staging-node"
+name = "staging-node-manual-seal"
 
 [dependencies]
 clap = { version = "4.0.9", features = ["derive"] }
@@ -28,7 +28,7 @@ sc-keystore = { path = "../../substrate/client/keystore" }
 sc-transaction-pool = { path = "../../substrate/client/transaction-pool" }
 sc-transaction-pool-api = { path = "../../substrate/client/transaction-pool/api" }
 sc-consensus = { path = "../../substrate/client/consensus/common" } # TODO: Naming of this crate is not aligned.
-sc-consensus-manual-seal = { path = "../../substrate/client/consensus/manual-seal" } # TODO: Naming of this crate is not aligned.
+sc-consensus-manual-seal = { path = "../../substrate/client/consensus/manual-seal" }
 sc-client-api = { path = "../../substrate/client/api" } # TODO: Naming of this crate is not aligned.
 
 sp-core = { path = "../../substrate/primitives/core" }

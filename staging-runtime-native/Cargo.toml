@@ -4,7 +4,6 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-staging-frame = { path = "../staging-frame" }
 frame = { path =  "../../substrate/frame", features = ["runtime"] }
 
 # TODO: https://github.com/paritytech/substrate/issues/14145

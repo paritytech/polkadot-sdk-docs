@@ -60,6 +60,7 @@ pub mod pallet {
 				currency::pallet::Balances::<T>::get(&who).map_or(false, |b| b >= amount),
 				"InsufficientFunds"
 			);
+
 			// we can basically remove this because we have transactional.
 			ensure!(Validators::<T>::contains_key(&to), "NotRegistered");
 

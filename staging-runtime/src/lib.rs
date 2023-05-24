@@ -7,6 +7,7 @@ use frame::runtime::runtime_types_common::HeaderOf;
 use frame::runtime::RuntimeVersion;
 use frame::runtime::{self as frame_runtime, create_runtime_str};
 use frame::std::prelude::*;
+use frame_runtime::runtime_types_common;
 use frame_runtime::{
 	impl_runtime_apis, runtime_apis::*, runtime_types_common::ExtrinsicOf, ApplyExtrinsicResult,
 	CheckInherentsResult, InherentData, OpaqueMetadata,
@@ -36,12 +37,6 @@ pub const VERSION: RuntimeVersion = RuntimeVersion {
 	state_version: 1,
 };
 
-const MILLISECS_PER_BLOCK: u64 = 6000;
-const SLOT_DURATION: u64 = MILLISECS_PER_BLOCK;
-const MINUTES: BlockNumber = 60_000 / (MILLISECS_PER_BLOCK as BlockNumber);
-const HOURS: BlockNumber = MINUTES * 60;
-const DAYS: BlockNumber = HOURS * 24;
-
 type BlockNumber = u32;
 pub type AccountId = frame_runtime::runtime_types_common::AccountId;
 pub type Balance = u128;
@@ -60,11 +55,9 @@ type SignedExtra = (
 	frame_system::CheckWeight<Runtime>,
 );
 
-use frame_runtime::runtime_types_common;
 type Header = runtime_types_common::Header;
 pub type Block = runtime_types_common::BlockOf<RuntimeCall, SignedExtra>;
 type Extrinsic = runtime_types_common::ExtrinsicOf<Block>;
-// type SignedPayload = runtime_types_generic::SignedPayload<RuntimeCall, ()>;
 
 pub type Executive = frame::runtime::Executive<
 	Runtime,
@@ -137,6 +130,7 @@ impl_runtime_apis! {
 			Executive::initialize_block(header)
 		}
 	}
+
 	impl frame_runtime::runtime_apis::Metadata<Block> for Runtime {
 		fn metadata() -> OpaqueMetadata {
 			OpaqueMetadata::new(Runtime::metadata().into())
@@ -190,13 +184,13 @@ impl_runtime_apis! {
 
 	impl frame_runtime::runtime_apis::SessionKeys<Block> for Runtime {
 		fn generate_session_keys(seed: Option<Vec<u8>>) -> Vec<u8> {
-			unimplemented!()
+			Default::default()
 		}
 
 		fn decode_session_keys(
 			encoded: Vec<u8>,
 		) -> Option<Vec<(Vec<u8>, frame_runtime::runtime_apis::KeyTypeId)>> {
-			unimplemented!()
+			Default::default()
 		}
 	}
 

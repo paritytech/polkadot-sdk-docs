@@ -7421,7 +7421,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a8f112729512f8e442d81f95a8a7ddf2b7c6b8a1a6f509a95864142b30cab2d3"
 
 [[package]]
-name = "staging-frame"
+name = "staging-frame-pallets"
 version = "0.1.0"
 dependencies = [
  "frame",
@@ -7432,11 +7432,11 @@ dependencies = [
 ]
 
 [[package]]
-name = "staging-ink"
+name = "staging-ink-contracts"
 version = "0.1.0"
 
 [[package]]
-name = "staging-node"
+name = "staging-node-manual-seal"
 version = "4.0.0-dev"
 dependencies = [
  "clap",
@@ -7485,6 +7485,7 @@ dependencies = [
  "parity-scale-codec",
  "scale-info",
  "sp-api",
+ "staging-frame-pallets",
  "substrate-wasm-builder",
 ]
 
@@ -7498,7 +7499,6 @@ dependencies = [
  "parity-scale-codec",
  "scale-info",
  "sp-api",
- "staging-frame",
 ]
 
 [[package]]

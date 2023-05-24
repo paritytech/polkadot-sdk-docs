@@ -2,9 +2,9 @@
 resolver = "2"
 
 members = [
-	"staging-frame",
-	"staging-ink",
+	"staging-frame-pallets",
+	"staging-ink-contracts",
 	"staging-runtime",
 	"staging-runtime-native",
-	"staging-node",
+	"staging-node-manual-seal",
 ]
