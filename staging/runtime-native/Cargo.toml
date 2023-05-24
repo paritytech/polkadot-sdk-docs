@@ -1,17 +1,17 @@
 [package]
-name = "staging-runtime-native"
+name = "runtime-native"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-frame = { path =  "../../substrate/frame", features = ["runtime"] }
+frame = { path =  "../../../substrate/frame", features = ["runtime"] }
 
 # TODO: https://github.com/paritytech/substrate/issues/14145
-sp-api = { path =  "../../substrate/primitives/api", default-features = false }
+sp-api = { path =  "../../../substrate/primitives/api", default-features = false }
 
 # TODO: https://github.com/paritytech/substrate/issues/14127
-frame-system = { path =  "../../substrate/frame/system" }
-frame-support = { path =  "../../substrate/frame/support" }
+frame-system = { path =  "../../../substrate/frame/system" }
+frame-support = { path =  "../../../substrate/frame/support" }
 parity-scale-codec = { version = "3.0.0" }
 scale-info = { version = "2.6.0" }
 

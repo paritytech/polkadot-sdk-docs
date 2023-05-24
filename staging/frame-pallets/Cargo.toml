@@ -1,15 +1,15 @@
 [package]
-name = "staging-frame-pallets"
+name = "frame-pallets"
 version = "0.1.0"
 edition = "2021"
 
 
 [dependencies]
-frame = { path =  "../../substrate/frame", default-features = false }
+frame = { path =  "../../../substrate/frame", default-features = false }
 
 # These are needed just for construct-runtime: https://github.com/paritytech/substrate/issues/14127
-frame-system = { path =  "../../substrate/frame/system", default-features = false }
-frame-support = { path =  "../../substrate/frame/support", default-features = false }
+frame-system = { path =  "../../../substrate/frame/system", default-features = false }
+frame-support = { path =  "../../../substrate/frame/support", default-features = false }
 parity-scale-codec = { version = "3.0.0", default-features = false }
 scale-info = { version = "2.6.0", default-features = false }
 

@@ -2065,6 +2065,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "frame-pallets"
+version = "0.1.0"
+dependencies = [
+ "frame",
+ "frame-support",
+ "frame-system",
+ "parity-scale-codec",
+ "scale-info",
+]
+
+[[package]]
 name = "frame-support"
 version = "4.0.0-dev"
 dependencies = [
@@ -2791,6 +2802,10 @@ dependencies = [
  "hashbrown 0.12.3",
  "serde",
 ]
+
+[[package]]
+name = "ink-contracts"
+version = "0.1.0"
 
 [[package]]
 name = "inout"
@@ -4090,6 +4105,46 @@ dependencies = [
 ]
 
 [[package]]
+name = "node-manual-seal"
+version = "4.0.0-dev"
+dependencies = [
+ "clap",
+ "frame-system",
+ "futures",
+ "jsonrpsee",
+ "pallet-transaction-payment",
+ "pallet-transaction-payment-rpc",
+ "runtime",
+ "sc-basic-authorship",
+ "sc-cli",
+ "sc-client-api",
+ "sc-consensus",
+ "sc-consensus-manual-seal",
+ "sc-executor",
+ "sc-keystore",
+ "sc-rpc",
+ "sc-rpc-api",
+ "sc-service",
+ "sc-telemetry",
+ "sc-transaction-pool",
+ "sc-transaction-pool-api",
+ "sp-api",
+ "sp-block-builder",
+ "sp-blockchain",
+ "sp-consensus",
+ "sp-consensus-aura",
+ "sp-consensus-grandpa",
+ "sp-core",
+ "sp-inherents",
+ "sp-io",
+ "sp-keyring",
+ "sp-runtime",
+ "sp-timestamp",
+ "substrate-build-script-utils",
+ "substrate-frame-rpc-system",
+]
+
+[[package]]
 name = "nohash-hasher"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5245,6 +5300,32 @@ dependencies = [
  "serde",
  "thiserror",
  "webrtc-util",
+]
+
+[[package]]
+name = "runtime"
+version = "0.1.0"
+dependencies = [
+ "frame",
+ "frame-pallets",
+ "frame-support",
+ "frame-system",
+ "parity-scale-codec",
+ "scale-info",
+ "sp-api",
+ "substrate-wasm-builder",
+]
+
+[[package]]
+name = "runtime-native"
+version = "0.1.0"
+dependencies = [
+ "frame",
+ "frame-support",
+ "frame-system",
+ "parity-scale-codec",
+ "scale-info",
+ "sp-api",
 ]
 
 [[package]]
@@ -7419,87 +7500,6 @@ name = "stable_deref_trait"
 version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a8f112729512f8e442d81f95a8a7ddf2b7c6b8a1a6f509a95864142b30cab2d3"
-
-[[package]]
-name = "staging-frame-pallets"
-version = "0.1.0"
-dependencies = [
- "frame",
- "frame-support",
- "frame-system",
- "parity-scale-codec",
- "scale-info",
-]
-
-[[package]]
-name = "staging-ink-contracts"
-version = "0.1.0"
-
-[[package]]
-name = "staging-node-manual-seal"
-version = "4.0.0-dev"
-dependencies = [
- "clap",
- "frame-system",
- "futures",
- "jsonrpsee",
- "pallet-transaction-payment",
- "pallet-transaction-payment-rpc",
- "sc-basic-authorship",
- "sc-cli",
- "sc-client-api",
- "sc-consensus",
- "sc-consensus-manual-seal",
- "sc-executor",
- "sc-keystore",
- "sc-rpc",
- "sc-rpc-api",
- "sc-service",
- "sc-telemetry",
- "sc-transaction-pool",
- "sc-transaction-pool-api",
- "sp-api",
- "sp-block-builder",
- "sp-blockchain",
- "sp-consensus",
- "sp-consensus-aura",
- "sp-consensus-grandpa",
- "sp-core",
- "sp-inherents",
- "sp-io",
- "sp-keyring",
- "sp-runtime",
- "sp-timestamp",
- "staging-runtime",
- "substrate-build-script-utils",
- "substrate-frame-rpc-system",
-]
-
-[[package]]
-name = "staging-runtime"
-version = "0.1.0"
-dependencies = [
- "frame",
- "frame-support",
- "frame-system",
- "parity-scale-codec",
- "scale-info",
- "sp-api",
- "staging-frame-pallets",
- "substrate-wasm-builder",
-]
-
-[[package]]
-name = "staging-runtime-native"
-version = "0.1.0"
-dependencies = [
- "frame",
- "frame-support",
- "frame-system",
- "parity-scale-codec",
- "scale-info",
- "sp-api",
-]
 
 [[package]]
 name = "static_assertions"
