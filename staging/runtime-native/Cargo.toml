@@ -4,14 +4,14 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-frame = { path =  "../../../substrate/frame", features = ["runtime"] }
+frame = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api", features = ["runtime"] }
 
 # TODO: https://github.com/paritytech/substrate/issues/14145
-sp-api = { path =  "../../../substrate/primitives/api", default-features = false }
+sp-api = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api", default-features = false }
 
 # TODO: https://github.com/paritytech/substrate/issues/14127
-frame-system = { path =  "../../../substrate/frame/system" }
-frame-support = { path =  "../../../substrate/frame/support" }
+frame-system = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+frame-support = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
 parity-scale-codec = { version = "3.0.0" }
 scale-info = { version = "2.6.0" }
 

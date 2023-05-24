@@ -46,7 +46,7 @@ impl SubstrateCli for Cli {
 	}
 
 	fn native_runtime_version(_: &Box<dyn ChainSpec>) -> &'static RuntimeVersion {
-		&staging_runtime::VERSION
+		&runtime::VERSION
 	}
 }
 
@@ -108,7 +108,7 @@ pub fn run() -> sc_cli::Result<()> {
 		},
 		Some(Subcommand::ChainInfo(cmd)) => {
 			let runner = cli.create_runner(cmd)?;
-			runner.sync_run(|config| cmd.run::<staging_runtime::Block>(&config))
+			runner.sync_run(|config| cmd.run::<runtime::Block>(&config))
 		},
 		None => {
 			let runner = cli.create_runner(&cli.run)?;

@@ -1,9 +1,9 @@
 //! Service and ServiceFactory implementation. Specialized wrapper over substrate service.
 
+use runtime::{self, OpaqueBlock as Block, RuntimeApi};
 pub use sc_executor::NativeElseWasmExecutor;
 use sc_service::{error::Error as ServiceError, Configuration, TaskManager, WarpSyncParams};
 use sc_telemetry::{Telemetry, TelemetryWorker};
-use staging_runtime::{self, OpaqueBlock as Block, RuntimeApi};
 use std::sync::Arc;
 
 // Our native executor instance.
@@ -18,11 +18,11 @@ impl sc_executor::NativeExecutionDispatch for ExecutorDispatch {
 	type ExtendHostFunctions = ();
 
 	fn dispatch(method: &str, data: &[u8]) -> Option<Vec<u8>> {
-		staging_runtime::api::dispatch(method, data)
+		runtime::api::dispatch(method, data)
 	}
 
 	fn native_version() -> sc_executor::NativeVersion {
-		staging_runtime::native_version()
+		runtime::native_version()
 	}
 }
 
