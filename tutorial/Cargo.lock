@@ -785,6 +785,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "frame-pallets"
+version = "0.1.0"
+dependencies = [
+ "frame",
+ "frame-support",
+ "frame-system",
+ "parity-scale-codec",
+ "scale-info",
+]
+
+[[package]]
 name = "frame-support"
 version = "4.0.0-dev"
 source = "git+https://github.com/paritytech/substrate.git?branch=kiz-frame-api#da3c1d6477c0725b2cfd0b17c85763431b855e66"
@@ -1396,17 +1407,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b823e83b2affd8f40a9ee8c29dbc56404c1e34cd2710921f2801e2cf29527afa"
 dependencies = [
  "libc",
-]
-
-[[package]]
-name = "master-tutorial-frame"
-version = "0.1.0"
-dependencies = [
- "frame",
- "frame-support",
- "frame-system",
- "parity-scale-codec",
- "scale-info",
 ]
 
 [[package]]

@@ -57,7 +57,7 @@ pub mod pallet {
 		type Extrinsic = MockUncheckedExtrinsic<Runtime>;
 		type Block = MockBlock<Runtime>;
 
-		frame::macros::construct_runtime!(
+		frame::runtime::construct_runtime!(
 			pub struct Runtime
 			where
 				Block = Block,
@@ -69,7 +69,7 @@ pub mod pallet {
 			}
 		);
 
-		impl frame::low_level::frame_system::Config for Runtime {
+		impl frame::deps::frame_system::Config for Runtime {
 			type RuntimeOrigin = RuntimeOrigin;
 			type RuntimeCall = RuntimeCall;
 			type RuntimeEvent = RuntimeEvent;
