@@ -21,21 +21,8 @@ pub const VERSION: RuntimeVersion = RuntimeVersion {
 	state_version: 1,
 };
 
-const MILLISECS_PER_BLOCK: u64 = 6000;
-const SLOT_DURATION: u64 = MILLISECS_PER_BLOCK;
-const MINUTES: BlockNumber = 60_000 / (MILLISECS_PER_BLOCK as BlockNumber);
-const HOURS: BlockNumber = MINUTES * 60;
-const DAYS: BlockNumber = HOURS * 24;
-
-/// The version information used to identify this runtime when compiled natively.
-#[cfg(feature = "std")]
-pub fn native_version() -> NativeVersion {
-	NativeVersion { runtime_version: VERSION, can_author_with: Default::default() }
-}
-
 type BlockNumber = u32;
 type AccountId = frame_runtime::runtime_types_common::AccountId;
-type Balance = u128;
 type Hash = frame::primitives::H256;
 
 type SignedExtra = (
@@ -93,7 +80,7 @@ impl frame_system::Config for Runtime {
 	type Lookup = frame::traits::AccountIdLookup<AccountId, ()>;
 	type Index = u32;
 	type BlockNumber = BlockNumber;
-	type Hash = Hash;
+	type Hash = frame::primitives::H256;
 	type Hashing = frame::primitives::BlakeTwo256;
 	type Header = Header;
 	type RuntimeEvent = RuntimeEvent;

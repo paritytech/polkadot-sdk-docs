@@ -57,7 +57,7 @@ pub mod pallet {
 		type Extrinsic = MockUncheckedExtrinsic<Runtime>;
 		type Block = MockBlock<Runtime>;
 
-		frame::macros::construct_runtime!(
+		frame::runtime::construct_runtime!(
 			pub struct Runtime
 			where
 				Block = Block,
@@ -69,7 +69,7 @@ pub mod pallet {
 			}
 		);
 
-		impl frame::low_level::frame_system::Config for Runtime {
+		impl frame::deps::frame_system::Config for Runtime {
 			type RuntimeOrigin = RuntimeOrigin;
 			type RuntimeCall = RuntimeCall;
 			type RuntimeEvent = RuntimeEvent;
@@ -80,13 +80,13 @@ pub mod pallet {
 			type BlockWeights = ();
 			type BlockLength = ();
 			type Index = u64;
-			type BlockNumber = u64;
+			type BlockNumber = u32;
 			type AccountId = u64;
 			type Hash = primitives::H256;
 			type Hashing = primitives::BlakeTwo256;
 			type Lookup = traits::IdentityLookup<Self::AccountId>;
 			type Header = <Block as traits::Block>::Header;
-			type BlockHashCount = traits::ConstU64<250>;
+			type BlockHashCount = traits::ConstU32<250>;
 			type MaxConsumers = traits::ConstU32<16>;
 			type Version = ();
 			type AccountData = ();

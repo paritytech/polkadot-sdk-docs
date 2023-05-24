@@ -1,18 +1,16 @@
-use frame::arithmetic::Perbill;
-use frame::deps::frame_system::limits::{BlockLength, BlockWeights};
-use frame::prelude::*;
-use frame::runtime::runtime_types_common::HeaderOf;
-use frame::runtime::{self as frame_runtime, create_runtime_str};
-use frame::runtime::{NativeVersion, RuntimeVersion};
-use frame_runtime::{
-	impl_runtime_apis, runtime_apis::*, runtime_types_common::ExtrinsicOf, ApplyExtrinsicResult,
-	CheckInherentsResult, InherentData, OpaqueMetadata,
+use frame::{
+	prelude::*,
+	runtime::{
+		self as frame_runtime, create_runtime_str, impl_runtime_apis, runtime_apis::*,
+		runtime_types_common, ApplyExtrinsicResult, CheckInherentsResult, InherentData,
+		OpaqueMetadata, RuntimeVersion,
+	},
 };
 
 #[frame::runtime::runtime_version]
 pub const VERSION: RuntimeVersion = RuntimeVersion {
-	spec_name: create_runtime_str!("node-template"),
-	impl_name: create_runtime_str!("node-template"),
+	spec_name: create_runtime_str!("frame-tutorial-runtime"),
+	impl_name: create_runtime_str!("frame-tutorial-runtime"),
 	authoring_version: 1,
 	spec_version: 100,
 	impl_version: 1,
@@ -21,41 +19,51 @@ pub const VERSION: RuntimeVersion = RuntimeVersion {
 	state_version: 1,
 };
 
-const MILLISECS_PER_BLOCK: u64 = 6000;
-const SLOT_DURATION: u64 = MILLISECS_PER_BLOCK;
-const MINUTES: BlockNumber = 60_000 / (MILLISECS_PER_BLOCK as BlockNumber);
-const HOURS: BlockNumber = MINUTES * 60;
-const DAYS: BlockNumber = HOURS * 24;
-
-/// The version information used to identify this runtime when compiled natively.
-#[cfg(feature = "std")]
-pub fn native_version() -> NativeVersion {
-	NativeVersion { runtime_version: VERSION, can_author_with: Default::default() }
+parameter_types! {
+	pub const Version: RuntimeVersion = VERSION;
 }
 
-type BlockNumber = u32;
-type AccountId = frame_runtime::runtime_types_common::AccountId;
-type Balance = u128;
-type Hash = frame::primitives::H256;
-type Index = <Runtime as frame_system::Config>::Index;
+impl frame_system::Config for Runtime {
+	type RuntimeOrigin = RuntimeOrigin;
+	type RuntimeCall = RuntimeCall;
+	type RuntimeEvent = RuntimeEvent;
+	type PalletInfo = PalletInfo;
+	type OnSetCode = ();
+	type BaseCallFilter = frame::traits::Everything;
 
-type SignedExtra = (
-	frame_system::CheckNonZeroSender<Runtime>,
-	frame_system::CheckSpecVersion<Runtime>,
-	frame_system::CheckTxVersion<Runtime>,
-	frame_system::CheckGenesis<Runtime>,
-	frame_system::CheckEra<Runtime>,
-	frame_system::CheckNonce<Runtime>,
-	frame_system::CheckWeight<Runtime>,
-);
+	type Header = Header;
 
-use frame_runtime::runtime_types_common;
-type Header = runtime_types_common::Header;
-type Block = runtime_types_common::BlockOf<RuntimeCall, SignedExtra>;
+	type AccountId = runtime_types_common::AccountId;
+	type BlockNumber = u32;
+	type Index = u32;
+	type Version = Version;
+
+	type BlockWeights = ();
+	type BlockLength = ();
+	type Hash = frame::primitives::H256;
+	type Hashing = frame::primitives::BlakeTwo256;
+	type Lookup = frame::traits::AccountIdLookup<Self::AccountId, ()>;
+	type BlockHashCount = frame::traits::ConstU32<250>;
+	type MaxConsumers = frame::traits::ConstU32<16>;
+	type AccountData = ();
+	type OnNewAccount = ();
+	type OnKilledAccount = ();
+	type SystemWeightInfo = ();
+	type SS58Prefix = ();
+	type DbWeight = ();
+}
+
+// Our custom pallet. Always import it such that the final path refers to the `pallet` module.
+use frame_pallets::currency::pallet as currency;
+impl currency::Config for Runtime {}
+
+type SignedExtensions = runtime_types_common::SystemSignedExtensionsOf<Runtime>;
+type OpaqueBlock = runtime_types_common::OpaqueBlockOf<Runtime>;
+type Block = runtime_types_common::BlockOf<Runtime, SignedExtensions>;
+type Header = runtime_types_common::HeaderOf<Block>;
 type Extrinsic = runtime_types_common::ExtrinsicOf<Block>;
-// type SignedPayload = runtime_types_generic::SignedPayload<RuntimeCall, ()>;
 
-pub type Executive = frame::runtime::Executive<
+type Executive = frame::runtime::Executive<
 	Runtime,
 	Block,
 	frame_system::ChainContext<Runtime>,
@@ -67,50 +75,16 @@ frame::runtime::construct_runtime!(
 	pub struct Runtime
 	where
 		Block = Block,
-		NodeBlock = Block,
+		NodeBlock = OpaqueBlock,
 		UncheckedExtrinsic = Extrinsic,
 	{
 		System: frame_system,
+		Currency: currency,
 	}
 );
 
-parameter_types! {
-	pub const Version: RuntimeVersion = VERSION;
-	/// We allow for 2 seconds of compute with a 6 second average block time.
-	pub RuntimeBlockWeights: BlockWeights =
-		BlockWeights::with_sensible_defaults(
-			Weight::from_parts(2u64 * frame::runtime::weights::constants::WEIGHT_REF_TIME_PER_SECOND, u64::MAX),
-			Perbill::from_percent(75),
-		);
-	pub RuntimeBlockLength: BlockLength = BlockLength::max_with_normal_ratio(5 * 1024 * 1024, Perbill::from_percent(75));
-}
-
-impl frame_system::Config for Runtime {
-	type BaseCallFilter = frame_support::traits::Everything;
-	type BlockWeights = ();
-	type BlockLength = ();
-	type AccountId = AccountId;
-	type RuntimeCall = RuntimeCall;
-	type Lookup = frame::traits::AccountIdLookup<AccountId, ()>;
-	type Index = u32;
-	type BlockNumber = BlockNumber;
-	type Hash = Hash;
-	type Hashing = frame::primitives::BlakeTwo256;
-	type Header = Header;
-	type RuntimeEvent = RuntimeEvent;
-	type RuntimeOrigin = RuntimeOrigin;
-	type BlockHashCount = frame::traits::ConstU32<2000>;
-	type DbWeight = frame_runtime::db_weights::RocksDbWeight;
-	type Version = Version;
-	type PalletInfo = PalletInfo;
-	type OnNewAccount = ();
-	type OnKilledAccount = ();
-	type AccountData = ();
-	type SystemWeightInfo = ();
-	type SS58Prefix = frame::traits::ConstU16<42>;
-	type OnSetCode = ();
-	type MaxConsumers = frame_support::traits::ConstU32<16>;
-}
+type AccountId = <Runtime as frame_system::Config>::AccountId;
+type Index = <Runtime as frame_system::Config>::Index;
 
 impl_runtime_apis! {
 	impl frame_runtime::runtime_apis::Core<Block> for Runtime {
@@ -141,15 +115,15 @@ impl_runtime_apis! {
 	}
 
 	impl frame_runtime::runtime_apis::BlockBuilder<Block> for Runtime {
-		fn apply_extrinsic(extrinsic: ExtrinsicOf<Block>) -> ApplyExtrinsicResult {
+		fn apply_extrinsic(extrinsic: Extrinsic) -> ApplyExtrinsicResult {
 			Executive::apply_extrinsic(extrinsic)
 		}
 
-		fn finalize_block() -> HeaderOf<Block> {
+		fn finalize_block() -> Header {
 			Executive::finalize_block()
 		}
 
-		fn inherent_extrinsics(data: InherentData) -> Vec<ExtrinsicOf<Block>> {
+		fn inherent_extrinsics(data: InherentData) -> Vec<Extrinsic> {
 			data.create_extrinsics()
 		}
 
@@ -164,26 +138,26 @@ impl_runtime_apis! {
 	impl frame_runtime::runtime_apis::TaggedTransactionQueue<Block> for Runtime {
 		fn validate_transaction(
 			source: TransactionSource,
-			tx: ExtrinsicOf<Block>,
-			block_hash: Hash,
+			tx: Extrinsic,
+			block_hash: <Runtime as frame_system::Config>::Hash,
 		) -> TransactionValidity {
 			Executive::validate_transaction(source, tx, block_hash)
 		}
 	}
 
 	impl frame_runtime::runtime_apis::OffchainWorkerApi<Block> for Runtime {
-		fn offchain_worker(header: &HeaderOf<Block>) {
+		fn offchain_worker(header: &Header) {
 			Executive::offchain_worker(header)
 		}
 	}
 
 	impl frame_runtime::runtime_apis::SessionKeys<Block> for Runtime {
-		fn generate_session_keys(seed: Option<Vec<u8>>) -> Vec<u8> {
+		fn generate_session_keys(_: Option<Vec<u8>>) -> Vec<u8> {
 			Default::default()
 		}
 
 		fn decode_session_keys(
-			encoded: Vec<u8>,
+			_: Vec<u8>,
 		) -> Option<Vec<(Vec<u8>, frame_runtime::runtime_apis::KeyTypeId)>> {
 			Default::default()
 		}
