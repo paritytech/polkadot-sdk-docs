@@ -4,21 +4,35 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-frame = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api", features = ["runtime"] }
-frame-pallets = { path = "../frame-pallets" }
+frame-pallets = { path = "../frame-pallets", default-features = false }
+frame = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api", default-features = false, features = ["runtime"] }
 
 # TODO: https://github.com/paritytech/substrate/issues/14145
 sp-api = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api", default-features = false }
 
 # TODO: https://github.com/paritytech/substrate/issues/14127
-frame-system = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
-frame-support = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
-parity-scale-codec = { version = "3.0.0" }
-scale-info = { version = "2.6.0" }
+frame-system = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api", default-features = false }
+frame-support = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api", default-features = false }
+parity-scale-codec = { version = "3.0.0", default-features = false }
+scale-info = { version = "2.6.0", default-features = false }
 
-# TODO: https://github.com/paritytech/substrate/issues/14145
+[build-dependencies]
+substrate-wasm-builder = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api", optional = true }
+
 [features]
 default = ["std"]
 std = [
-	"sp-api/std"
+	"frame-pallets/std",
+	"frame/std",
+
+	"sp-api/std",
+
+	"frame-system/std",
+	"frame-support/std",
+	"parity-scale-codec/std",
+	"scale-info/std",
+
+	"substrate-wasm-builder",
 ]
+
+
