@@ -37,6 +37,8 @@ Make sure this repo is cloned, and navigate to `tutorial/frame-pallets/Cargo.tom
 
 ### Background Knowledge: State Transitions
 
+TODO: fill out with proper information on what each aspect is
+
 * Some general information about state transition, pallets and runtime should be covered beforehand.
 * Use this diagram.
 
@@ -65,6 +67,8 @@ By the end of this step, you should expect to complete and gain understanding of
 
 
 ## In the Code
+
+TODO: Clarify some of the macros, Config, and Pallet at a high level w/ Rust
 
 * Each pallet is coded as a module ie `mod` in Rust. It actually can be broken down into smaller
 pieces (https://github.com/paritytech/substrate/pull/13950), but for the sake of simplicity, assume
