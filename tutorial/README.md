@@ -17,8 +17,8 @@ Welcome to the first step in the FRAME master tutorial!  For reference, each ste
 
 - Each section of this tutorial will incrementally uncover concepts you need to build a pallet using FRAME
 - **Context** - this will give you an overview of what you will acclomplish, along with the end result.
-- **In the code** - this will clarify the design decisions made, explain why the code is implemented in this way, and provide more Rust-context for the step.
 - **Tutorial Objectives** - An explaination regarding what is being completed in this module, and what functionality it will bring.
+- **In the code** - this will clarify the design decisions made, explain why the code is implemented in this way, and provide more Rust-context for the step.
 - **Implementation** - The code will present some todo items to complete based on the previously explained concepts.  
 
 ### Project Setup
@@ -57,6 +57,13 @@ Terminology that must be covered:
 
 ## Tutorial Objectives
 
+By the end of this step, you should expect to complete and gain understanding of the following. Use the checklist to make sure you understand these concepts, as they will be recurring in future steps: 
+
+- [ ] What a `Call` (dispatch) is? What does it contain?
+- [ ] What is state and storage, and how do they relate to one another?
+- [ ] What events and errors are, and what are their derived types?
+- [ ] How does FRAME faciliate the process of building a pallet?
+
 
 ## In the Code
 
@@ -72,3 +79,5 @@ each pallet must be a rust module for now.
 
 
 ## Implementation
+
+todo
