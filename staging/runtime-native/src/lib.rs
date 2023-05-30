@@ -74,7 +74,7 @@ frame::runtime::construct_runtime!(
 );
 
 parameter_types! {
-pub const Version: RuntimeVersion = VERSION;
+	pub const Version: RuntimeVersion = VERSION;
 	/// We allow for 2 seconds of compute with a 6 second average block time.
 	pub RuntimeBlockWeights: BlockWeights =
 		BlockWeights::with_sensible_defaults(

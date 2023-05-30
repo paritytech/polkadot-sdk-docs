@@ -9,7 +9,7 @@ pub mod pallet {
 	use frame::derive;
 
 	#[pallet::config]
-	pub trait Config: frame_system::Config + currency::pallet::Config {
+	pub trait Config: system::Config + currency::pallet::Config {
 		/// Number of validators that we want to select.
 		type ValidatorCount: Get<u32>;
 
@@ -99,7 +99,7 @@ pub mod pallet {
 	#[cfg(test)]
 	mod tests {
 		use super::*;
-		use frame::{primitives, testing::prelude::*, traits};
+		use frame::{primitives, testing_prelude::*, traits, runtime::construct_runtime};
 
 		type Extrinsic = MockUncheckedExtrinsic<Runtime>;
 		type Block = MockBlock<Runtime>;
@@ -119,7 +119,7 @@ pub mod pallet {
 			}
 		);
 
-		impl frame::deps::frame_system::Config for Runtime {
+		impl frame::system::Config for Runtime {
 			type RuntimeOrigin = RuntimeOrigin;
 			type RuntimeCall = RuntimeCall;
 			type RuntimeEvent = RuntimeEvent;

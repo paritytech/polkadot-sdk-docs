@@ -7,7 +7,7 @@ pub mod pallet {
 	pub type Balance = u128;
 
 	#[pallet::config]
-	pub trait Config: frame_system::Config {}
+	pub trait Config: system::Config {}
 
 	#[pallet::pallet]
 	pub struct Pallet<T>(_);
@@ -49,7 +49,7 @@ pub mod pallet {
 	#[cfg(test)]
 	mod tests {
 		use super::*;
-		use frame::{primitives, testing::prelude::*, traits};
+		use frame::{primitives, testing_prelude::*, traits, runtime::construct_runtime};
 
 		type Extrinsic = MockUncheckedExtrinsic<Runtime>;
 		type Block = MockBlock<Runtime>;
