@@ -8156,7 +8156,17 @@ dependencies = [
 ]
 
 [[package]]
-name = "tutorial-frame-pallets"
+name = "tutorial-frame-pallets-0"
+version = "0.1.0"
+dependencies = [
+ "frame",
+ "frame-support",
+ "parity-scale-codec",
+ "scale-info",
+]
+
+[[package]]
+name = "tutorial-frame-pallets-1"
 version = "0.1.0"
 dependencies = [
  "frame",
