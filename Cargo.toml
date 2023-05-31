@@ -17,6 +17,9 @@ members = [
 	"tutorial/step-3/frame-pallets",
 	"tutorial/step-3/runtime",
 
+	"tutorial/step-4/frame-pallets",
+	"tutorial/step-4/runtime",
+
 
 ]
 

@@ -6,7 +6,7 @@
 #![warn(missing_docs)]
 
 use jsonrpsee::RpcModule;
-use runtime::{AccountId, Index, OpaqueBlock, Runtime};
+use runtime::{AccountId, Index, OpaqueBlock};
 use sc_transaction_pool_api::TransactionPool;
 use sp_block_builder::BlockBuilder;
 use sp_blockchain::{Error as BlockChainError, HeaderBackend, HeaderMetadata};
