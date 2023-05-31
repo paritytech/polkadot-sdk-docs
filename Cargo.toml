@@ -8,6 +8,10 @@ members = [
 	"staging/runtime-native",
 	"staging/runtime",
 	"staging/node-manual-seal",
+
+	# all tutorial steps
+	"tutorial/step-0/frame-pallets",
+	# "tutorial/step-0/frame-pallets",
 ]
 
 [patch."https://github.com/paritytech/substrate"]

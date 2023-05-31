@@ -8156,6 +8156,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "tutorial-frame-pallets"
+version = "0.1.0"
+dependencies = [
+ "frame",
+ "frame-support",
+ "parity-scale-codec",
+ "scale-info",
+]
+
+[[package]]
 name = "twox-hash"
 version = "1.6.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
