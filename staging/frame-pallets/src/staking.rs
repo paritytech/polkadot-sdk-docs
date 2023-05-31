@@ -3,7 +3,7 @@ use frame::prelude::*;
 #[frame::pallet(dev_mode)]
 pub mod pallet {
 	use super::*;
-	use crate::currency::pallet::{self as currency_pallet, Balance, Pallet as CurrencyPallet};
+	use crate::currency::pallet::{self as currency_pallet, Balance};
 	use frame::derive;
 
 	#[pallet::config]

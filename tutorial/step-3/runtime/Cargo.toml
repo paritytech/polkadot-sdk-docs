@@ -1,0 +1,22 @@
+[package]
+name = "step-3-runtime"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+frame = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api", features = ["runtime"] }
+frame-pallets = { package = "step-3-frame-pallets", path = "../frame-pallets" }
+frame-support = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+
+# TODO: https://github.com/paritytech/substrate/issues/14145
+sp-api = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api", default-features = false }
+
+# TODO: https://github.com/paritytech/substrate/issues/14127
+parity-scale-codec = { version = "3.0.0" }
+scale-info = { version = "2.6.0" }
+
+[features]
+default = ["std"]
+std = [
+	"sp-api/std"
+]

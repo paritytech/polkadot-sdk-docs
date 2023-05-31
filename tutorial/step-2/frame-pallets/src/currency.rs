@@ -52,7 +52,7 @@ pub mod pallet {
 	#[cfg(test)]
 	mod tests {
 		use super::*;
-		use frame::{primitives, testing_prelude::*, traits};
+		use frame::testing_prelude::*;
 
 		type Extrinsic = MockUncheckedExtrinsic<Runtime>;
 		type Block = MockBlock<Runtime>;
@@ -69,6 +69,11 @@ pub mod pallet {
 			}
 		);
 
+		// TODO: this is not optimal
+		#[frame::macros::use_attr]
+		use frame::deps::frame_support::derive_impl;
+
+		#[derive_impl(frame_system::config_preludes::TestDefaultConfig as frame_system::DefaultConfig)]
 		impl frame_system::Config for Runtime {
 			type RuntimeOrigin = RuntimeOrigin;
 			type RuntimeCall = RuntimeCall;
@@ -76,26 +81,6 @@ pub mod pallet {
 			type PalletInfo = PalletInfo;
 			type BaseCallFilter = frame::traits::Everything;
 			type OnSetCode = ();
-
-			type AccountId = u64;
-
-			type BlockNumber = u64;
-			type Hash = primitives::H256;
-			type Hashing = primitives::BlakeTwo256;
-			type Lookup = traits::IdentityLookup<Self::AccountId>;
-			type Header = <Block as traits::Block>::Header;
-			type BlockHashCount = traits::ConstU64<250>;
-			type MaxConsumers = traits::ConstU32<16>;
-			type BlockWeights = ();
-			type BlockLength = ();
-			type Index = u64;
-			type Version = ();
-			type AccountData = ();
-			type OnNewAccount = ();
-			type OnKilledAccount = ();
-			type SystemWeightInfo = ();
-			type SS58Prefix = ();
-			type DbWeight = ();
 		}
 
 		impl pallet::Config for Runtime {}
@@ -186,6 +171,13 @@ pub mod pallet {
 				assert_eq!(pallet::Balances::<Runtime>::get(&BOB), Some(100));
 				assert_eq!(pallet::Balances::<Runtime>::get(&EVE), None);
 				assert_eq!(pallet::TotalIssuance::<Runtime>::get(), 200);
+
+				// in fact, this frame-helper ensures that nothing in the state has been updated
+				// prior and after execution:
+				assert_noop!(
+					pallet::Pallet::<Runtime>::transfer(RuntimeOrigin::signed(EVE), ALICE, 10),
+					"NonExistentAccount"
+				);
 			});
 		}
 	}

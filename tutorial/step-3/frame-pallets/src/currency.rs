@@ -9,17 +9,20 @@ pub mod pallet {
 	#[pallet::config]
 	pub trait Config: frame_system::Config {}
 
-	#[pallet::pallet]
-	pub struct Pallet<T>(_);
-
+	/// Mapping from account ID to balance.
 	#[pallet::storage]
 	pub type Balances<T: Config> = StorageMap<_, _, T::AccountId, Balance>;
 
+	/// Sum of all the tokens in existence.
 	#[pallet::storage]
 	pub type TotalIssuance<T: Config> = StorageValue<_, Balance, ValueQuery>;
 
+	#[pallet::pallet]
+	pub struct Pallet<T>(_);
+
 	#[pallet::call]
 	impl<T: Config> Pallet<T> {
+		/// Mint `amount` new tokens for `to`.
 		pub fn mint(origin: OriginFor<T>, to: T::AccountId, amount: Balance) -> DispatchResult {
 			let _anyone = ensure_signed(origin)?;
 
@@ -29,6 +32,7 @@ pub mod pallet {
 			Ok(())
 		}
 
+		/// Transfer exactly `amount` from `origin` to `to`. `origin` must exist, and `to` may not.
 		pub fn transfer(origin: OriginFor<T>, to: T::AccountId, amount: Balance) -> DispatchResult {
 			let sender = ensure_signed(origin)?;
 
@@ -134,7 +138,7 @@ pub mod pallet {
 					50
 				));
 
-				// then:
+				// them:
 				assert_eq!(pallet::Balances::<Runtime>::get(&ALICE), Some(50));
 				assert_eq!(pallet::Balances::<Runtime>::get(&BOB), Some(150));
 				assert_eq!(pallet::TotalIssuance::<Runtime>::get(), 200);
@@ -167,6 +171,13 @@ pub mod pallet {
 				assert_eq!(pallet::Balances::<Runtime>::get(&BOB), Some(100));
 				assert_eq!(pallet::Balances::<Runtime>::get(&EVE), None);
 				assert_eq!(pallet::TotalIssuance::<Runtime>::get(), 200);
+
+				// in fact, this frame-helper ensures that nothing in the state has been updated
+				// prior and after execution:
+				assert_noop!(
+					pallet::Pallet::<Runtime>::transfer(RuntimeOrigin::signed(EVE), ALICE, 10),
+					"NonExistentAccount"
+				);
 			});
 		}
 	}

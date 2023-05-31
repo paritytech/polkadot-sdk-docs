@@ -7493,6 +7493,28 @@ dependencies = [
 ]
 
 [[package]]
+name = "step-3-frame-pallets"
+version = "0.1.0"
+dependencies = [
+ "frame",
+ "frame-support",
+ "parity-scale-codec",
+ "scale-info",
+]
+
+[[package]]
+name = "step-3-runtime"
+version = "0.1.0"
+dependencies = [
+ "frame",
+ "frame-support",
+ "parity-scale-codec",
+ "scale-info",
+ "sp-api",
+ "step-3-frame-pallets",
+]
+
+[[package]]
 name = "strsim"
 version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"

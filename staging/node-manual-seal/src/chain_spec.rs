@@ -122,9 +122,9 @@ pub fn local_testnet_config() -> Result<ChainSpec, String> {
 /// Configure initial storage state for FRAME modules.
 fn testnet_genesis(
 	wasm_binary: &[u8],
-	initial_authorities: Vec<(AuraId, GrandpaId)>,
-	root_key: AccountId,
-	endowed_accounts: Vec<AccountId>,
+	_initial_authorities: Vec<(AuraId, GrandpaId)>,
+	_root_key: AccountId,
+	_endowed_accounts: Vec<AccountId>,
 	_enable_println: bool,
 ) -> RuntimeGenesisConfig {
 	RuntimeGenesisConfig {
