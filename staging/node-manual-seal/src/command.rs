@@ -39,9 +39,8 @@ impl SubstrateCli for Cli {
 		Ok(match id {
 			"dev" => Box::new(chain_spec::development_config()?),
 			"" | "local" => Box::new(chain_spec::local_testnet_config()?),
-			path => {
-				Box::new(chain_spec::ChainSpec::from_json_file(std::path::PathBuf::from(path))?)
-			},
+			path =>
+				Box::new(chain_spec::ChainSpec::from_json_file(std::path::PathBuf::from(path))?),
 		})
 	}
 
@@ -99,16 +98,12 @@ pub fn run() -> sc_cli::Result<()> {
 			runner.async_run(|config| {
 				let PartialComponents { client, task_manager, backend, .. } =
 					service::new_partial(&config)?;
-				// let aux_revert = Box::new(|client, _, blocks| {
-				// 	sc_consensus_grandpa::revert(client, blocks)?;
-				// 	Ok(())
-				// });
 				Ok((cmd.run(client, backend, None), task_manager))
 			})
 		},
 		Some(Subcommand::ChainInfo(cmd)) => {
 			let runner = cli.create_runner(cmd)?;
-			runner.sync_run(|config| cmd.run::<runtime::Block>(&config))
+			runner.sync_run(|config| cmd.run::<runtime::OpaqueBlock>(&config))
 		},
 		None => {
 			let runner = cli.create_runner(&cli.run)?;

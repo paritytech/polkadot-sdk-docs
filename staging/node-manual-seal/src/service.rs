@@ -2,7 +2,7 @@
 
 use runtime::{self, OpaqueBlock as Block, RuntimeApi};
 pub use sc_executor::NativeElseWasmExecutor;
-use sc_service::{error::Error as ServiceError, Configuration, TaskManager, WarpSyncParams};
+use sc_service::{error::Error as ServiceError, Configuration, TaskManager};
 use sc_telemetry::{Telemetry, TelemetryWorker};
 use std::sync::Arc;
 
@@ -111,6 +111,8 @@ pub fn new_full(config: Configuration) -> Result<TaskManager, ServiceError> {
 		other: mut telemetry,
 	} = new_partial(&config)?;
 
+	let net_config = sc_network::config::FullNetworkConfiguration::new(&config.network);
+
 	let (network, system_rpc_tx, tx_handler_controller, network_starter, sync_service) =
 		sc_service::build_network(sc_service::BuildNetworkParams {
 			config: &config,
@@ -118,6 +120,7 @@ pub fn new_full(config: Configuration) -> Result<TaskManager, ServiceError> {
 			transaction_pool: transaction_pool.clone(),
 			spawn_handle: task_manager.spawn_handle(),
 			import_queue,
+			net_config,
 			block_announce_validator_builder: None,
 			warp_sync_params: None,
 		})?;

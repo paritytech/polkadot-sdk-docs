@@ -22,6 +22,7 @@ futures = { version = "0.3.21", features = ["thread-pool"] }
 
 sc-cli = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
 sc-executor = {  git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+sc-network = {  git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
 sc-service = {  git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
 sc-telemetry = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
 sc-keystore = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
@@ -35,13 +36,11 @@ sp-core = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-f
 sp-consensus = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
 sp-consensus-aura = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
 sp-consensus-grandpa = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
-sp-runtime = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
 sp-io = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
 sp-timestamp = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
 sp-inherents = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
 sp-keyring = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
 
-frame-system = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
 pallet-transaction-payment = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
 
 # These dependencies are used for the node template's RPCs
@@ -60,6 +59,7 @@ pallet-transaction-payment-rpc = { git = "https://github.com/paritytech/substrat
 
 # Local Dependencies
 runtime = { path = "../runtime" }
+frame = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
 
 [build-dependencies]
 substrate-build-script-utils = { version = "3.0.0", git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.42" }

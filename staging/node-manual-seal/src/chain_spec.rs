@@ -1,12 +1,12 @@
-use runtime::{AccountId, GenesisConfig, Signature, SystemConfig, WASM_BINARY};
+use frame::deps::sp_runtime::traits::IdentifyAccount;
+use runtime::{AccountId, RuntimeGenesisConfig, SystemConfig, WASM_BINARY};
 use sc_service::ChainType;
 use sp_consensus_aura::sr25519::AuthorityId as AuraId;
 use sp_consensus_grandpa::AuthorityId as GrandpaId;
 use sp_core::{sr25519, Pair, Public};
-use sp_runtime::traits::{IdentifyAccount, Verify};
 
 /// Specialized `ChainSpec`. This is a specialization of the general Substrate ChainSpec type.
-pub type ChainSpec = sc_service::GenericChainSpec<GenesisConfig>;
+pub type ChainSpec = sc_service::GenericChainSpec<RuntimeGenesisConfig>;
 
 /// Generate a crypto pair from seed.
 pub fn get_from_seed<TPublic: Public>(seed: &str) -> <TPublic::Pair as Pair>::Public {
@@ -15,7 +15,8 @@ pub fn get_from_seed<TPublic: Public>(seed: &str) -> <TPublic::Pair as Pair>::Pu
 		.public()
 }
 
-type AccountPublic = <Signature as Verify>::Signer;
+// TODO: hardcoded for now..
+type AccountPublic = frame::deps::sp_runtime::MultiSigner;
 
 /// Generate an account ID from seed.
 pub fn get_account_id_from_seed<TPublic: Public>(seed: &str) -> AccountId
@@ -125,8 +126,8 @@ fn testnet_genesis(
 	root_key: AccountId,
 	endowed_accounts: Vec<AccountId>,
 	_enable_println: bool,
-) -> GenesisConfig {
-	GenesisConfig {
+) -> RuntimeGenesisConfig {
+	RuntimeGenesisConfig {
 		system: SystemConfig {
 			// Add Wasm runtime to storage.
 			code: wasm_binary.to_vec(),

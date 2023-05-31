@@ -3,13 +3,11 @@ use frame::prelude::*;
 #[frame::pallet(dev_mode)]
 pub mod pallet {
 	use super::*;
-	use crate::currency;
-	use crate::currency::pallet::Balance;
-	use currency::pallet::Pallet as CurrencyPallet;
+	use crate::currency::pallet::{self as currency_pallet, Balance, Pallet as CurrencyPallet};
 	use frame::derive;
 
 	#[pallet::config]
-	pub trait Config: system::Config + currency::pallet::Config {
+	pub trait Config: frame_system::Config + currency_pallet::Config {
 		/// Number of validators that we want to select.
 		type ValidatorCount: Get<u32>;
 
@@ -43,7 +41,7 @@ pub mod pallet {
 			// This is shorter than needing to write `if` statements repeatedly.
 			ensure!(!Validators::<T>::contains_key(&who), "AlreadyRegistered");
 			ensure!(
-				currency::pallet::Balances::<T>::get(&who).map_or(false, |b| b >= amount),
+				currency_pallet::Balances::<T>::get(&who).map_or(false, |b| b >= amount),
 				"InsufficientFunds"
 			);
 
@@ -57,7 +55,7 @@ pub mod pallet {
 
 			ensure!(!Delegators::<T>::contains_key(&who), "AlreadyDelegator");
 			ensure!(
-				currency::pallet::Balances::<T>::get(&who).map_or(false, |b| b >= amount),
+				currency_pallet::Balances::<T>::get(&who).map_or(false, |b| b >= amount),
 				"InsufficientFunds"
 			);
 
@@ -98,8 +96,13 @@ pub mod pallet {
 
 	#[cfg(test)]
 	mod tests {
-		use super::*;
-		use frame::{primitives, testing_prelude::*, traits, runtime::construct_runtime};
+		use super::pallet as staking_pallet;
+		use crate::currency::pallet as currency_pallet;
+		use frame::{prelude::*, testing_prelude::*};
+		use staking_pallet::{ActiveValidators, ValidatorStake, Validators};
+
+		#[frame::macros::use_attr]
+		use frame::deps::frame_support::derive_impl;
 
 		type Extrinsic = MockUncheckedExtrinsic<Runtime>;
 		type Block = MockBlock<Runtime>;
@@ -107,79 +110,64 @@ pub mod pallet {
 		construct_runtime!(
 			pub struct Runtime
 			where
-				// It really sucks that we have to specify these... but there is really no way.
+				// TODO It really sucks that we have to specify these... but there is really no way.
 				// https://github.com/paritytech/substrate/issues/14126
 				Block = Block,
 				NodeBlock = Block,
 				UncheckedExtrinsic = Extrinsic,
 			{
 				System: frame_system,
-				Staking: pallet,
-				Currency: currency::pallet,
+				Staking: staking_pallet,
+				Currency: currency_pallet,
 			}
 		);
 
-		impl frame::system::Config for Runtime {
+		#[derive_impl(frame_system::config_preludes::TestDefaultConfig as frame_system::DefaultConfig)]
+		impl frame_system::Config for Runtime {
+			// these items are defined by frame-system as `no_default`, so we must specify them
+			// here. Note that these are types that actually rely on the outer runtime, and can't
+			// sensibly have an _independent_ default.
+			type BaseCallFilter = frame_support::traits::Everything;
 			type RuntimeOrigin = RuntimeOrigin;
 			type RuntimeCall = RuntimeCall;
 			type RuntimeEvent = RuntimeEvent;
 			type PalletInfo = PalletInfo;
-			type BaseCallFilter = frame::traits::Everything;
 			type OnSetCode = ();
-
-			type AccountId = u64;
-
-			type BlockNumber = u64;
-			type Hash = primitives::H256;
-			type Hashing = primitives::BlakeTwo256;
-			type Lookup = traits::IdentityLookup<Self::AccountId>;
-			type Header = <Block as traits::Block>::Header;
-			type BlockHashCount = traits::ConstU64<250>;
-			type MaxConsumers = traits::ConstU32<16>;
-			type BlockWeights = ();
-			type BlockLength = ();
-			type Index = u64;
-			type Version = ();
-			type AccountData = ();
-			type OnNewAccount = ();
-			type OnKilledAccount = ();
-			type SystemWeightInfo = ();
-			type SS58Prefix = ();
-			type DbWeight = ();
 		}
 
-		// TODO: if we were to have private `struct` runtime, then these would also not need to be pub.
+		// TODO: if we were to have private `struct` runtime, then these would also not need to be
+		// pub.
 		parameter_types! {
 			pub const ValidatorCount: u32 = 2;
-			pub const EraDuration: u64 = 3;
+			pub const EraDuration: <Runtime as frame_system::Config>::BlockNumber = 3;
 		}
 
-		impl Config for Runtime {
+		impl staking_pallet::Config for Runtime {
 			type ValidatorCount = ValidatorCount;
 			type EraDuration = EraDuration;
 		}
 
-		impl currency::pallet::Config for Runtime {}
+		impl currency_pallet::Config for Runtime {}
 
 		fn new_test_state() -> TestState {
 			let mut state = TestState::new_empty();
 			state.execute_with(|| {
 				frame_system::Pallet::<Runtime>::set_block_number(1);
 				// give everyone some money.
-				currency::pallet::Balances::<Runtime>::insert(1, 10);
-				currency::pallet::Balances::<Runtime>::insert(2, 20);
-				currency::pallet::Balances::<Runtime>::insert(3, 30);
+				currency_pallet::Balances::<Runtime>::insert(1, 10);
+				currency_pallet::Balances::<Runtime>::insert(2, 20);
+				currency_pallet::Balances::<Runtime>::insert(3, 30);
 				// register them all as validators
-				pallet::Pallet::<Runtime>::register(RuntimeOrigin::signed(1), 10).unwrap();
-				pallet::Pallet::<Runtime>::register(RuntimeOrigin::signed(2), 20).unwrap();
-				pallet::Pallet::<Runtime>::register(RuntimeOrigin::signed(3), 30).unwrap();
+				staking_pallet::Pallet::<Runtime>::register(RuntimeOrigin::signed(1), 10).unwrap();
+				staking_pallet::Pallet::<Runtime>::register(RuntimeOrigin::signed(2), 20).unwrap();
+				staking_pallet::Pallet::<Runtime>::register(RuntimeOrigin::signed(3), 30).unwrap();
 			});
 			state
 		}
 
 		fn next_block() {
 			let now = frame_system::Pallet::<Runtime>::block_number();
-			pallet::Pallet::<Runtime>::on_initialize(now);
+			staking_pallet::Pallet::<Runtime>::on_initialize(now);
 			frame_system::Pallet::<Runtime>::set_block_number(now + 1);
 		}
 

@@ -7,12 +7,11 @@ pub mod pallet {
 	pub type Balance = u128;
 
 	#[pallet::config]
-	pub trait Config: system::Config {}
+	pub trait Config: frame_system::Config {}
 
 	#[pallet::pallet]
 	pub struct Pallet<T>(_);
 
-	// TODO: not sure why the pallet macro stubs are not in scope and docs not working.
 	#[pallet::storage]
 	pub type Balances<T: Config> = StorageMap<_, _, T::AccountId, Balance>;
 
@@ -35,7 +34,7 @@ pub mod pallet {
 
 			let sender_balance = Balances::<T>::get(&sender).ok_or("NonExistentAccount")?;
 			if sender_balance < amount {
-				return Err("notEnoughBalance".into());
+				return Err("notEnoughBalance".into())
 			}
 			let reminder = sender_balance - amount;
 
@@ -49,7 +48,7 @@ pub mod pallet {
 	#[cfg(test)]
 	mod tests {
 		use super::*;
-		use frame::{primitives, testing_prelude::*, traits, runtime::construct_runtime};
+		use frame::{primitives, testing_prelude::*, traits};
 
 		type Extrinsic = MockUncheckedExtrinsic<Runtime>;
 		type Block = MockBlock<Runtime>;
@@ -57,8 +56,6 @@ pub mod pallet {
 		construct_runtime!(
 			pub struct Runtime
 			where
-				// It really sucks that we have to specify these... but there is really no way.
-				// https://github.com/paritytech/substrate/issues/14126
 				Block = Block,
 				NodeBlock = Block,
 				UncheckedExtrinsic = Extrinsic,
@@ -68,7 +65,7 @@ pub mod pallet {
 			}
 		);
 
-		impl frame::deps::frame_system::Config for Runtime {
+		impl frame_system::Config for Runtime {
 			type RuntimeOrigin = RuntimeOrigin;
 			type RuntimeCall = RuntimeCall;
 			type RuntimeEvent = RuntimeEvent;
