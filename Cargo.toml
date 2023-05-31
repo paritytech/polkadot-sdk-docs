@@ -12,6 +12,7 @@ members = [
 	# all tutorial steps
 	"tutorial/step-0/frame-pallets",
 	"tutorial/step-1/frame-pallets",
+	"tutorial/step-2/frame-pallets",
 ]
 
 [patch."https://github.com/paritytech/substrate"]
