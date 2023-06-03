@@ -47,7 +47,7 @@ pub mod pallet {
 
 	#[cfg(test)]
 	mod tests {
-		use super::{pallet as currency_pallet, *};
+		use super::{pallet as pallet_currency, *};
 		use frame::testing_prelude::*;
 
 		type Extrinsic = MockUncheckedExtrinsic<Runtime>;
@@ -61,7 +61,7 @@ pub mod pallet {
 				UncheckedExtrinsic = Extrinsic,
 			{
 				System: frame_system,
-				Currency: currency_pallet,
+				Currency: pallet_currency,
 			}
 		);
 

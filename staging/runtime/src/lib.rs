@@ -8,7 +8,7 @@ use frame::{
 	prelude::*,
 	runtime::{prelude::*, runtime_apis},
 };
-use frame_pallets::{currency::pallet as currency_pallet, staking::pallet as staking_pallet};
+use frame_pallets::{currency::pallet as pallet_currency, staking::pallet as pallet_staking};
 
 // TODO: this is not optimal
 #[frame::macros::use_attr]
@@ -50,8 +50,8 @@ construct_runtime!(
 		UncheckedExtrinsic = Extrinsic,
 	{
 		System: frame_system,
-		Currency: currency_pallet,
-		Staking: staking_pallet,
+		Currency: pallet_currency,
+		Staking: pallet_staking,
 	}
 );
 
@@ -72,8 +72,8 @@ impl frame_system::Config for Runtime {
 	type Hashing = frame::primitives::BlakeTwo256;
 }
 
-impl currency_pallet::Config for Runtime {}
-impl staking_pallet::Config for Runtime {
+impl pallet_currency::Config for Runtime {}
+impl pallet_staking::Config for Runtime {
 	type EraDuration = ConstU32<24>;
 	type ValidatorCount = ConstU32<4>;
 }

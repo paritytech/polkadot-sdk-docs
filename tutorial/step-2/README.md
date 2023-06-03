@@ -23,7 +23,7 @@ In written form
 
   ```
   // point to `mod pallet` and import it as `<name>_pallet`;
-  use crate::currency::pallet as currency_pallet;
+  use crate::currency::pallet as pallet_currency;
   ```
 
 

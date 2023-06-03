@@ -8,7 +8,7 @@ use frame::{
 	prelude::*,
 	runtime::{prelude::*, runtime_apis},
 };
-use frame_pallets::currency::pallet as currency_pallet;
+use frame_pallets::currency::pallet as pallet_currency;
 
 // TODO: this is not optimal
 #[frame::macros::use_attr]
@@ -49,7 +49,7 @@ construct_runtime!(
 		UncheckedExtrinsic = Extrinsic,
 	{
 		System: frame_system,
-		Currency: currency_pallet,
+		Currency: pallet_currency,
 	}
 );
 
@@ -69,7 +69,7 @@ impl frame_system::Config for Runtime {
 	type Version = Version;
 }
 
-impl currency_pallet::Config for Runtime {}
+impl pallet_currency::Config for Runtime {}
 
 use frame::runtime::runtime_types_common::{self, ExtrinsicOf, HeaderOf};
 use frame_support::parameter_types;

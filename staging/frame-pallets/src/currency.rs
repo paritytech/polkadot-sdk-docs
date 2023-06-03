@@ -64,7 +64,7 @@ pub mod pallet {
 
 	#[cfg(test)]
 	mod tests {
-		use super::{pallet as currency_pallet, *};
+		use super::{pallet as pallet_currency, *};
 		use frame::testing_prelude::*;
 
 		type Extrinsic = MockUncheckedExtrinsic<Runtime>;
@@ -78,7 +78,7 @@ pub mod pallet {
 				UncheckedExtrinsic = Extrinsic,
 			{
 				System: frame_system,
-				Currency: currency_pallet,
+				Currency: pallet_currency,
 			}
 		);
 
@@ -106,7 +106,7 @@ pub mod pallet {
 		fn test_state_new() -> TestState {
 			let system = frame_system::GenesisConfig::default();
 			let currency =
-				currency_pallet::GenesisConfig { balances: vec![(ALICE, 100), (BOB, 100)] };
+				pallet_currency::GenesisConfig { balances: vec![(ALICE, 100), (BOB, 100)] };
 			let runtime_genesis = RuntimeGenesisConfig { system, currency };
 
 			TestState::new(runtime_genesis.build_storage().unwrap())
@@ -119,7 +119,7 @@ pub mod pallet {
 				&Default::default(),
 				&mut storage,
 			);
-			currency_pallet::GenesisConfig::<Runtime> { balances: vec![(ALICE, 100), (BOB, 100)] }
+			pallet_currency::GenesisConfig::<Runtime> { balances: vec![(ALICE, 100), (BOB, 100)] }
 				.assimilate_storage(&mut storage);
 			TestState::new(storage)
 		}
@@ -146,7 +146,7 @@ pub mod pallet {
 
 			fn build_and_execute(self, test: impl FnOnce() -> ()) {
 				let system = frame_system::GenesisConfig::default();
-				let currency = currency_pallet::GenesisConfig { balances: self.balances };
+				let currency = pallet_currency::GenesisConfig { balances: self.balances };
 				let runtime_genesis = RuntimeGenesisConfig { system, currency };
 
 				let mut ext = TestState::new(runtime_genesis.build_storage().unwrap());
