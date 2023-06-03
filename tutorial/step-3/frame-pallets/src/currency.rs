@@ -9,11 +9,9 @@ pub mod pallet {
 	#[pallet::config]
 	pub trait Config: frame_system::Config {}
 
-	/// Mapping from account ID to balance.
 	#[pallet::storage]
 	pub type Balances<T: Config> = StorageMap<_, _, T::AccountId, Balance>;
 
-	/// Sum of all the tokens in existence.
 	#[pallet::storage]
 	pub type TotalIssuance<T: Config> = StorageValue<_, Balance, ValueQuery>;
 
@@ -22,7 +20,6 @@ pub mod pallet {
 
 	#[pallet::call]
 	impl<T: Config> Pallet<T> {
-		/// Mint `amount` new tokens for `to`.
 		pub fn mint(origin: OriginFor<T>, to: T::AccountId, amount: Balance) -> DispatchResult {
 			let _anyone = ensure_signed(origin)?;
 
@@ -32,7 +29,6 @@ pub mod pallet {
 			Ok(())
 		}
 
-		/// Transfer exactly `amount` from `origin` to `to`. `origin` must exist, and `to` may not.
 		pub fn transfer(origin: OriginFor<T>, to: T::AccountId, amount: Balance) -> DispatchResult {
 			let sender = ensure_signed(origin)?;
 
@@ -51,7 +47,7 @@ pub mod pallet {
 
 	#[cfg(test)]
 	mod tests {
-		use super::*;
+		use super::{pallet as currency_pallet, *};
 		use frame::testing_prelude::*;
 
 		type Extrinsic = MockUncheckedExtrinsic<Runtime>;
@@ -65,7 +61,7 @@ pub mod pallet {
 				UncheckedExtrinsic = Extrinsic,
 			{
 				System: frame_system,
-				Currency: pallet,
+				Currency: currency_pallet,
 			}
 		);
 

@@ -45,6 +45,23 @@ pub mod pallet {
 		}
 	}
 
+	#[derive(frame::derive::DefaultNoBound)]
+	#[pallet::genesis_config]
+	pub struct GenesisConfig<T: Config> {
+		balances: Vec<(T::AccountId, Balance)>,
+	}
+
+	#[pallet::genesis_build]
+	impl<T: Config> GenesisBuild<T> for GenesisConfig<T> {
+		fn build(&self) {
+			for (who, amount) in &self.balances {
+				assert!(!Balances::<T>::contains_key(who), "duplicate balance in genesis");
+				Balances::<T>::insert(who, amount);
+				TotalIssuance::<T>::mutate(|t| *t += amount);
+			}
+		}
+	}
+
 	#[cfg(test)]
 	mod tests {
 		use super::{pallet as currency_pallet, *};
@@ -85,29 +102,92 @@ pub mod pallet {
 		const BOB: <Runtime as frame_system::Config>::AccountId = 2;
 		const EVE: <Runtime as frame_system::Config>::AccountId = 3;
 
-		fn test_state() -> TestState {
-			let mut state = TestState::new_empty();
-			state.execute_with(|| {
-				pallet::Balances::<Runtime>::insert(&ALICE, 100);
-				pallet::Balances::<Runtime>::insert(&BOB, 100);
-				pallet::TotalIssuance::<Runtime>::put(200);
-			});
+		#[allow(unused)]
+		fn test_state_new() -> TestState {
+			let system = frame_system::GenesisConfig::default();
+			let currency =
+				currency_pallet::GenesisConfig { balances: vec![(ALICE, 100), (BOB, 100)] };
+			let runtime_genesis = RuntimeGenesisConfig { system, currency };
 
-			state
+			TestState::new(runtime_genesis.build_storage().unwrap())
+		}
+
+		#[allow(unused)]
+		fn test_state_new_2() -> TestState {
+			let mut storage: Storage = Default::default();
+			<frame_system::GenesisConfig as GenesisBuild<Runtime>>::assimilate_storage(
+				&Default::default(),
+				&mut storage,
+			);
+			currency_pallet::GenesisConfig::<Runtime> { balances: vec![(ALICE, 100), (BOB, 100)] }
+				.assimilate_storage(&mut storage);
+			TestState::new(storage)
+		}
+
+		struct ExtBuilder {
+			balances: Vec<(<Runtime as frame_system::Config>::AccountId, Balance)>,
+		}
+
+		impl Default for ExtBuilder {
+			fn default() -> Self {
+				Self { balances: vec![(ALICE, 100), (BOB, 100)] }
+			}
+		}
+
+		impl ExtBuilder {
+			fn add_balance(
+				mut self,
+				who: <Runtime as frame_system::Config>::AccountId,
+				amount: Balance,
+			) -> Self {
+				self.balances.push((who, amount));
+				self
+			}
+
+			fn build_and_execute(self, test: impl FnOnce() -> ()) {
+				let system = frame_system::GenesisConfig::default();
+				let currency = currency_pallet::GenesisConfig { balances: self.balances };
+				let runtime_genesis = RuntimeGenesisConfig { system, currency };
+
+				let mut ext = TestState::new(runtime_genesis.build_storage().unwrap());
+				ext.execute_with(test);
+				// possibly do more here.
+			}
 		}
 
 		#[test]
 		fn initial_state_works() {
-			test_state().execute_with(|| {
+			ExtBuilder::default().build_and_execute(|| {
 				assert_eq!(pallet::Balances::<Runtime>::get(&ALICE), Some(100));
 				assert_eq!(pallet::Balances::<Runtime>::get(&BOB), Some(100));
 				assert_eq!(pallet::Balances::<Runtime>::get(&EVE), None);
 				assert_eq!(pallet::TotalIssuance::<Runtime>::get(), 200);
 			});
 		}
+
+		#[test]
+		fn ext_builder_works() {
+			ExtBuilder::default().add_balance(EVE, 42).build().execute_with(|| {
+				assert_eq!(pallet::Balances::<Runtime>::get(&EVE), Some(42));
+				assert_eq!(pallet::TotalIssuance::<Runtime>::get(), 242);
+			})
+		}
+
+		#[test]
+		#[should_panic]
+		fn duplicate_genesis_fails() {
+			ExtBuilder::default()
+				.add_balance(EVE, 42)
+				.add_balance(EVE, 43)
+				.build_and_execute(|| {
+					assert_eq!(pallet::Balances::<Runtime>::get(&EVE), None);
+					assert_eq!(pallet::TotalIssuance::<Runtime>::get(), 242);
+				})
+		}
+
 		#[test]
 		fn test_mint() {
-			test_state().execute_with(|| {
+			ExtBuilder::default().build_and_execute(|| {
 				// given the initial state, when:
 				assert_ok!(pallet::Pallet::<Runtime>::mint(RuntimeOrigin::signed(ALICE), BOB, 100));
 
@@ -126,7 +206,7 @@ pub mod pallet {
 
 		#[test]
 		fn transfer_works() {
-			test_state().execute_with(|| {
+			ExtBuilder::default().build_and_execute(|| {
 				// given the the initial state, when:
 				assert_ok!(pallet::Pallet::<Runtime>::transfer(
 					RuntimeOrigin::signed(ALICE),
@@ -134,7 +214,7 @@ pub mod pallet {
 					50
 				));
 
-				// then:
+				// them:
 				assert_eq!(pallet::Balances::<Runtime>::get(&ALICE), Some(50));
 				assert_eq!(pallet::Balances::<Runtime>::get(&BOB), Some(150));
 				assert_eq!(pallet::TotalIssuance::<Runtime>::get(), 200);
@@ -155,7 +235,7 @@ pub mod pallet {
 
 		#[test]
 		fn transfer_from_non_existent_fails() {
-			test_state().execute_with(|| {
+			ExtBuilder::default().build_and_execute(|| {
 				// given the the initial state, when:
 				assert_err!(
 					pallet::Pallet::<Runtime>::transfer(RuntimeOrigin::signed(EVE), ALICE, 10),

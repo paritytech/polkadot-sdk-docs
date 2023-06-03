@@ -58,6 +58,7 @@ substrate-frame-rpc-system = { git = "https://github.com/paritytech/substrate.gi
 pallet-transaction-payment-rpc = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
 
 frame = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+
 # change only this line to link this node to a different runtime at a different stage.
 runtime = { package = "step-4-runtime", path = "../step-4/runtime" }
 

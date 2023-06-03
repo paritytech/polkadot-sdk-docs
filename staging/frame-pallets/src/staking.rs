@@ -8,10 +8,7 @@ pub mod pallet {
 
 	#[pallet::config]
 	pub trait Config: frame_system::Config + currency_pallet::Config {
-		/// Number of validators that we want to select.
 		type ValidatorCount: Get<u32>;
-
-		/// The number of blocks after which we try and select a new validator set.
 		type EraDuration: Get<Self::BlockNumber>;
 	}
 
