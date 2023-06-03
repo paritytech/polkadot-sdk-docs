@@ -79,8 +79,6 @@ pub mod pallet {
 				pallet_currency::Balances::<T>::get(&who).map_or(false, |b| b >= amount),
 				"InsufficientFunds"
 			);
-
-			// TODO: we can basically remove this because we have transactional.
 			ensure!(Validators::<T>::contains_key(&to), "NotRegistered");
 
 			Delegators::<T>::insert(&who, amount);
@@ -116,9 +114,9 @@ pub mod pallet {
 
 	#[cfg(test)]
 	mod tests {
-		use super::pallet as pallet_staking;
+		use super::{pallet as pallet_staking, *};
 		use crate::currency::pallet::{self as pallet_currency, Balance};
-		use frame::{prelude::*, testing_prelude::*};
+		use frame::testing_prelude::*;
 		use pallet_staking::{ActiveValidators, ValidatorStake, Validators};
 
 		#[frame::macros::use_attr]
@@ -130,8 +128,6 @@ pub mod pallet {
 		construct_runtime!(
 			pub struct Runtime
 			where
-				// TODO It really sucks that we have to specify these... but there is really no way.
-				// https://github.com/paritytech/substrate/issues/14126
 				Block = Block,
 				NodeBlock = Block,
 				UncheckedExtrinsic = Extrinsic,
@@ -152,8 +148,6 @@ pub mod pallet {
 			type OnSetCode = ();
 		}
 
-		// TODO: if we were to have private `struct` runtime, then these would also not need to be
-		// pub.
 		parameter_types! {
 			pub static ValidatorCount: u32 = 2;
 			pub const EraDuration: <Runtime as frame_system::Config>::BlockNumber = 3;
@@ -210,23 +204,6 @@ pub mod pallet {
 			}
 
 			fn build_and_execute(self, test: impl FnOnce() -> ()) {
-				// In this example, we care about the order of genesis-initialization, so we use the
-				// alternative syntax.
-				// let mut storage: Storage = Default::default();
-				// frame_system::GenesisConfig::default()
-				// 	.assimilate_storage::<Runtime>(&mut storage)
-				// 	.unwrap();
-				// pallet_currency::GenesisConfig::<Runtime> { balances: self.balances }
-				// 	.assimilate_storage(&mut storage)
-				// 	.unwrap();
-				// pallet_staking::GenesisConfig::<Runtime> {
-				// 	validators: self.validators,
-				// 	delegators: self.delegators,
-				// }
-				// .assimilate_storage(&mut storage)
-				// .unwrap();
-				// let mut ext = TestState::new(storage);
-
 				let system = frame_system::GenesisConfig::default();
 				let currency = pallet_currency::GenesisConfig { balances: self.balances };
 				let staking = pallet_staking::GenesisConfig {

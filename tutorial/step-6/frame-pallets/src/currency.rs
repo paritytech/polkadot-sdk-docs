@@ -48,7 +48,7 @@ pub mod pallet {
 	#[derive(frame::derive::DefaultNoBound)]
 	#[pallet::genesis_config]
 	pub struct GenesisConfig<T: Config> {
-		balances: Vec<(T::AccountId, Balance)>,
+		pub balances: Vec<(T::AccountId, Balance)>,
 	}
 
 	#[pallet::genesis_build]
@@ -101,28 +101,6 @@ pub mod pallet {
 		const ALICE: <Runtime as frame_system::Config>::AccountId = 1;
 		const BOB: <Runtime as frame_system::Config>::AccountId = 2;
 		const EVE: <Runtime as frame_system::Config>::AccountId = 3;
-
-		#[allow(unused)]
-		fn test_state_new() -> TestState {
-			let system = frame_system::GenesisConfig::default();
-			let currency =
-				pallet_currency::GenesisConfig { balances: vec![(ALICE, 100), (BOB, 100)] };
-			let runtime_genesis = RuntimeGenesisConfig { system, currency };
-
-			TestState::new(runtime_genesis.build_storage().unwrap())
-		}
-
-		#[allow(unused)]
-		fn test_state_new_2() -> TestState {
-			let mut storage: Storage = Default::default();
-			<frame_system::GenesisConfig as GenesisBuild<Runtime>>::assimilate_storage(
-				&Default::default(),
-				&mut storage,
-			);
-			pallet_currency::GenesisConfig::<Runtime> { balances: vec![(ALICE, 100), (BOB, 100)] }
-				.assimilate_storage(&mut storage);
-			TestState::new(storage)
-		}
 
 		struct ExtBuilder {
 			balances: Vec<(<Runtime as frame_system::Config>::AccountId, Balance)>,

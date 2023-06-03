@@ -8,7 +8,7 @@ use frame::{
 	prelude::*,
 	runtime::{prelude::*, runtime_apis},
 };
-use frame_pallets::currency::pallet as pallet_currency;
+use frame_pallets::{currency::pallet as pallet_currency, staking::pallet as pallet_staking};
 
 // TODO: this is not optimal
 #[frame::macros::use_attr]
@@ -50,6 +50,7 @@ construct_runtime!(
 	{
 		System: frame_system,
 		Currency: pallet_currency,
+		Staking: pallet_staking,
 	}
 );
 
@@ -70,6 +71,16 @@ impl frame_system::Config for Runtime {
 }
 
 impl pallet_currency::Config for Runtime {}
+
+parameter_types! {
+	pub const EraDuration: <Runtime as frame_system::Config>::BlockNumber = 5;
+	pub const ValidatorCount: u32 = 2;
+}
+
+impl pallet_staking::Config for Runtime {
+	type EraDuration = EraDuration;
+	type ValidatorCount = ValidatorCount;
+}
 
 use frame::runtime::runtime_types_common::{self, ExtrinsicOf, HeaderOf};
 use frame_support::parameter_types;

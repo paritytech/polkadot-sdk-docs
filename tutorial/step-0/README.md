@@ -49,3 +49,9 @@ each pallet must be a rust module for now.
     now.
   * The latter is the main struct that is mandatory to exist in the pallet, and will implement
 	all the important functions of the pallet, among dispatchable function.
+
+## Setup
+
+- One should have and use Rust analyzer properly in the remainder of this tutorial.
+- One should properly use the rust-docs of the hinted types of FRAME for the remainder of this
+  tutorial.

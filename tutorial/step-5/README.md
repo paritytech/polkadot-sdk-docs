@@ -10,7 +10,6 @@ In this step, we will start using `#[pallet::genesis]` features.
 ## information Points
 
 
-
 ## In the code
 
 - Let's look at our `test_state()`. Not so pretty. Also, when we launched a node, it had no initial

@@ -48,7 +48,7 @@ pub mod pallet {
 	#[derive(frame::derive::DefaultNoBound)]
 	#[pallet::genesis_config]
 	pub struct GenesisConfig<T: Config> {
-		balances: Vec<(T::AccountId, Balance)>,
+		pub balances: Vec<(T::AccountId, Balance)>,
 	}
 
 	#[pallet::genesis_build]
