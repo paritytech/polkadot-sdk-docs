@@ -10,6 +10,8 @@ members = [
 	"staging/node-manual-seal",
 
 	# all tutorial steps
+	"tutorial/node",
+
 	"tutorial/step-0/frame-pallets",
 	"tutorial/step-1/frame-pallets",
 	"tutorial/step-2/frame-pallets",
@@ -19,8 +21,6 @@ members = [
 
 	"tutorial/step-4/frame-pallets",
 	"tutorial/step-4/runtime",
-
-
 ]
 
 [patch."https://github.com/paritytech/substrate"]

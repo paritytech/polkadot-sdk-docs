@@ -1,0 +1,68 @@
+[package]
+name = "tutorial-node"
+version = "4.0.0-dev"
+description = "A fresh FRAME-based Substrate node, ready for hacking."
+authors = ["Substrate DevHub <https://github.com/substrate-developer-hub>"]
+homepage = "https://substrate.io/"
+edition = "2021"
+license = "MIT-0"
+publish = false
+repository = "https://github.com/substrate-developer-hub/substrate-node-template/"
+build = "build.rs"
+
+[package.metadata.docs.rs]
+targets = ["x86_64-unknown-linux-gnu"]
+
+[[bin]]
+name = "tutorial-node"
+
+[dependencies]
+clap = { version = "4.0.9", features = ["derive"] }
+futures = { version = "0.3.21", features = ["thread-pool"] }
+
+sc-cli = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+sc-executor = {  git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+sc-network = {  git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+sc-service = {  git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+sc-telemetry = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+sc-keystore = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+sc-transaction-pool = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+sc-transaction-pool-api = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+sc-consensus = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" } # TODO: Naming of this crate is not aligned.
+sc-consensus-manual-seal = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+sc-client-api = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" } # TODO: Naming of this crate is not aligned.
+
+sp-core = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+sp-consensus = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+sp-consensus-aura = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+sp-consensus-grandpa = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+sp-io = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+sp-timestamp = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+sp-inherents = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+sp-keyring = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+
+pallet-transaction-payment = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+
+# These dependencies are used for the node template's RPCs
+jsonrpsee = { version = "0.16.2", features = ["server"] }
+
+sc-rpc = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+sc-rpc-api = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+sc-basic-authorship = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+
+sp-api = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+sp-blockchain = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+sp-block-builder = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+
+substrate-frame-rpc-system = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" } # TODO: Naming of this crate is not aligned.
+pallet-transaction-payment-rpc = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+
+frame = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+# change only this line to link this node to a different runtime at a different stage.
+runtime = { package = "step-4-runtime", path = "../step-4/runtime" }
+
+[build-dependencies]
+substrate-build-script-utils = { version = "3.0.0", git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.42" }
+
+[features]
+default = []

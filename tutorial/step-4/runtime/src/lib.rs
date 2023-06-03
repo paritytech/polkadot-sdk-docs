@@ -1,5 +1,9 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 
+// Make the WASM binary available.
+#[cfg(feature = "std")]
+include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
+
 use frame::{
 	prelude::*,
 	runtime::{prelude::*, runtime_apis},
@@ -73,6 +77,11 @@ use frame_support::parameter_types;
 type Block = runtime_types_common::BlockOf<Runtime, SignedExtra>;
 type Header = runtime_types_common::HeaderOf<Block>;
 type Extrinsic = runtime_types_common::ExtrinsicOf<Block>;
+
+// Some re-exports that the node side code needs to know. Some are useful in this context as well.
+pub type OpaqueBlock = runtime_types_common::OpaqueBlockOf<Runtime>;
+pub type AccountId = <Runtime as frame_system::Config>::AccountId;
+pub type Index = <Runtime as frame_system::Config>::Index;
 
 pub type RuntimeExecutive =
 	Executive<Runtime, Block, frame_system::ChainContext<Runtime>, Runtime, AllPalletsWithSystem>;
