@@ -7,14 +7,10 @@ In this step, we will build a very simple test setup for the existing code we ha
 		- [In the code](#in-the-code)
 
 
-## information Points
+## State Transition, Background Knowledge
 
- The "potential" data-poinst to be covered are the following.
-
-### State Transition, Background Knowledge
-
-* at this point, we have to compose a runtime out of our pallet, and system. This requires us to
-  understan the relation between the two.
+* at this point, we have to compose a runtime out of our pallet, and the system pallet. This
+  requires us to understand the relation between the two.
 
 In written form
 
@@ -24,17 +20,15 @@ In written form
 
 
 
-### In the code
-
-> TODO: I am assuming https://github.com/paritytech/substrate/pull/13454 is merged
+## In the code
 
 * First, we implement `frame_system::Config for Runtime`. Most of the implementation is being
-  automatically derived from `...`. Some of the types are dependent on the runtime, so they cannot
-  have defaults, such as `Runtime*`. We will learn more about this in "composit/runtime enums"
-  section.
-* For the sake of this tutorial, just notice how `type AccountId = u64`. So, in this runtime,
-  anywhere we used `T::AccountId`, aka. `<T as frame_system::Config>::AccountId`, we are not
-  declaring that to be a simple u64.
+  automatically derived from `derive_impl`, which brings in a sensible set of configs for testing.
+  Some of the types are dependent on the runtime, so they cannot have defaults, such as `Runtime*`.
+  We will learn more about this later.
+
+* `frame_system::config_preludes::TestDefaultConfig` defined `type AccountId = u64`. So this is our
+  account id type. This can be represented as `<Runtime as frame_system::Config>::AccountId`.
 
 > This is the power that generics give us in substrate. Imagine how hard testing would have been, if
 > you had to use a real account id for testing.
@@ -43,12 +37,15 @@ In written form
 
 * Any code in substrate accessing storage must be wrapped in `TestState`'s `execute_with` method.
   So, we make a helper function to create a `TestState` with some initial data.
-* Notice how what used to be `TotalIssuance::<T>::get()` in the actual palelt code is now
+
+* Notice how what used to be `TotalIssuance::<T>::get()` in the actual pallet code is now
   `TotalIssuance::<Runtime>::get()`? Anywhere that we used to say `<T: Config>` within the pallet,
-  we can now replace it with `<Runtime>`.
+  we can now replace it with `<Runtime>`. Recall:
+
+  > A runtime is a `struct Runtime` that implements `Config` of *all pallets*.
 
 * Tests should be self-explanatory. We cover a success-path of transfer and mint, and check that the
-  storages have been updated propoerly.
+  storages have been updated properly.
 
 * some suggested guide lines about writing tests, presented as extra detail:
   * We suggest writing one test for each success-path of a dispatchable, and one for each
@@ -56,13 +53,17 @@ In written form
   * For each tests, try and maintain a "given, when, then" mental model.
   * In that spirit, it helps to have a helper method (or a Builder pattern, if you feel fancy) to
     create the initial state, and have a test called `basic_setup` or similar that ensures the
-    inital state of the pallet is correct.s
+    initial state of the pallet is correct.
 
-As a next step, you should write a test for the case of sending more balance that one has (eg. Alice transferring 200) yourself.
+As a next step, you should write a test for the case of sending more balance that one has (eg. Alice
+transferring 200) yourself.
 
-In general, this was our first baby-step in "interacting" with the pallet that we have built. Next we will continue on the same path, and before writing any further logic:
+In general, this was our first baby-step in "interacting" with the pallet that we have built. Next
+we will continue on the same path, and before writing any further logic:
 
-1. integrate this pallet into a real runtime ("which will look fairly similar to the test setup we had here").
+1. integrate this pallet into a real runtime ("which will look fairly similar to the test setup we
+   had here").
+
 2. interact with it using:
    * PJS-Apps
    * PJS-API/CAPI

@@ -138,7 +138,7 @@ pub mod pallet {
 					50
 				));
 
-				// them:
+				// then:
 				assert_eq!(pallet::Balances::<Runtime>::get(&ALICE), Some(50));
 				assert_eq!(pallet::Balances::<Runtime>::get(&BOB), Some(150));
 				assert_eq!(pallet::TotalIssuance::<Runtime>::get(), 200);

@@ -3,17 +3,12 @@
 This is the shell pallet, that will act as the starting code.
 
 - [Step 0](#step-0)
-	- [information Points](#information-points)
 		- [Project setup.](#project-setup)
 		- [State Transition, Background Knowledge](#state-transition-background-knowledge)
 		- [In the code](#in-the-code)
 
 
-## information Points
-
- The "potential" data-poinst to be covered are the following.
-
-### Project setup.
+## Project setup.
 
 * in `Cargo.toml`, we are only bringing in `frame` package. This is an all-in-one crate to get your
 started with FRAME. The rust docs of this frame should be TRIPLE A.
@@ -23,7 +18,7 @@ started with FRAME. The rust docs of this frame should be TRIPLE A.
 * Explain broadly speaking that we want to build a currency and staking system, therefore this file
   name was chosen.
 
-### State Transition, Background Knowledge
+## State Transition, Background Knowledge
 
 * Some general information about state transition, pallets and runtime should be covered beforehand.
 Use this diagram.
@@ -43,7 +38,7 @@ Terminology that must be covered:
 * Explain broadly that FRAME achieves giving you this set of abstractions via a set of macros. More
   documentation, plus the full list of macros should be in the docs of the `frame` crate.
 
-### In the code
+## In the code
 
 * Each pallet is coded as a module ie `mod` in Rust. It actually can be broken down into smaller
 pieces (https://github.com/paritytech/substrate/pull/13950), but for the sake of simplicity, assume
