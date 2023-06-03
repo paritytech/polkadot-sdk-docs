@@ -3,37 +3,36 @@ A holistic, minimal documentation portal for the Polkadot developers.
 
 ## Master Tutorial
 
-The very, very rough plan that I have so far is written in [SCRIPT.md](./SCRIPT.md). Note that this topic is chosen such that it complements the imagine drawn in `mini_substrate` exercise in the PBA Rust entrance exam.
+The very, very rough plan that I have so far is written in [SCRIPT.md](./SCRIPT.md). Note that this
+topic is chosen such that it complements the imagine drawn in `mini_substrate` exercise in the PBA
+Rust entrance exam.
 
 ## Tutorial Structure
 
-This tutorial is being structured in branches. The `main` branch only contains [`staging`](./staging/) folder that contains all of the written code. This is where the author of the tutorial prepares the next steps. Feel free to put whatever you need in there.
+This tutorial is being structured in different folders. That is, each distinct step is one folder in
+the [tutorial](./tutorial/) folder.
 
-each tutorial step is places in a folder with the name `step-{number}-more-info`.
+The [staging](./staging/) folder is only for the author, and serves as a playground.
 
-In this folder, we make to changes to `staging`, and instead only make changes to `tutorial`.
+Each step of the tutorial, in its current state, is merely:
 
-In order to develop a new step:
+1. The code required to achieve that step.
+2. A README.md file containing very high level instructions about how to achieve those.
 
-* checkout to the corresponding steps branch.
-* merge `main`. This should always be conflict-free as it only brings the latest `staging`.
-* merge `step-{n-1}` to get the code of the previous step.
-* update content in `tutorial` based on the new step.
-* update `README.md` in `tutorial` to reflect the new step.
+These markdown files are not the final version of this tutorial and are meant to be raw material
+that can be later used to craft:
 
-These `README.md` file can then be used to write:
+1. a written book
+2. a slide deck
+3. an, indeed, a somewhat interactive tutorial.
 
-* a more structured written document
-* a slide deck
-* an interactive tutorial
-* ...
 
-Existing steps:
+The best way to check and study each part is to `diff` the two folders. For that, we suggest a
+better toll like `delta`:
 
-- https://github.com/paritytech/polkadot-sdk-docs/tree/step-0-beginner-code
-- https://github.com/paritytech/polkadot-sdk-docs/tree/step-1-simple-currency
-- https://github.com/paritytech/polkadot-sdk-docs/tree/step-2-testing
-- https://github.com/paritytech/polkadot-sdk-docs/tree/step-3-runtime-native
-- https://github.com/paritytech/polkadot-sdk-docs/tree/step-4-runtime-wasm
+```
+delta tutorial/step-3 tutorial/step-4
+```
 
-In order to review each step, open the diff between step `n` and `n-1` in github, and ignore anything in `staging`.
+The `README` file of step `n` should justify all changes that were made in the code of step `n-1`
+against step `n`.
