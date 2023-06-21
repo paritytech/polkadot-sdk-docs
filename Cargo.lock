@@ -8485,7 +8485,7 @@ dependencies = [
  "sp-blockchain",
  "sp-keyring",
  "sp-timestamp",
- "step-4-runtime",
+ "step-6-runtime",
  "substrate-build-script-utils",
  "substrate-frame-rpc-system",
 ]
