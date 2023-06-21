@@ -95,6 +95,9 @@ where we have cut corners. Ideas:
 - For account storage, use system (mehhh).
 - Talk about the choice of `Get<_>` as opposed to storage items for configurations.
 
+## Part 4: Benchmarking, Weight, PoV
+
+Before going much further, let's finish the existing code with benchmarks.
 
 ## Other Part Ideas:
 - build a simple governance system.

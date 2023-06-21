@@ -1,12 +1,19 @@
 [package]
-name = "runtime"
+name = "staging-runtime"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
 frame = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api", default-features = false, features = ["runtime"] }
 frame-support = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api", default-features = false }
-frame-pallets = { path = "../frame-pallets", default-features = false }
+
+pallets = { package = "staging-pallets", path = "../pallets", default-features = false }
+
+# Pallets that we want to use
+pallet-balances = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api", default-features = false, features = ["insecure_zero_ed"] }
+pallet-sudo = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api", default-features = false }
+pallet-timestamp = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api", default-features = false }
+pallet-transaction-payment = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api", default-features = false }
 
 # TODO: https://github.com/paritytech/substrate/issues/14145
 sp-api = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api", default-features = false }
@@ -22,8 +29,13 @@ substrate-wasm-builder = { git = "https://github.com/paritytech/substrate.git", 
 default = ["std"]
 std = [
 	"frame/std",
-	"frame-support/std",
-	"frame-pallets/std",
+
+	"pallet-balances/std",
+	"pallet-sudo/std",
+	"pallet-timestamp/std",
+	"pallet-transaction-payment/std",
+
+	"pallets/std",
 
 	"sp-api/std",
 

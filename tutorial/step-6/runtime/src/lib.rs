@@ -6,13 +6,13 @@ include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 
 use frame::{
 	prelude::*,
-	runtime::{prelude::*, runtime_apis},
+	runtime::{
+		prelude::*,
+		runtime_apis,
+		runtime_types_common::{self, ExtrinsicOf, HeaderOf},
+	},
 };
-use frame_pallets::{currency::pallet as pallet_currency, staking::pallet as pallet_staking};
-
-// TODO: this is not optimal
-#[frame::macros::use_attr]
-use frame::deps::frame_support::derive_impl;
+use pallets::{currency::pallet as pallet_currency, staking::pallet as pallet_staking};
 
 #[runtime_version]
 pub const VERSION: RuntimeVersion = RuntimeVersion {
@@ -82,19 +82,11 @@ impl pallet_staking::Config for Runtime {
 	type ValidatorCount = ValidatorCount;
 }
 
-use frame::runtime::runtime_types_common::{self, ExtrinsicOf, HeaderOf};
-use frame_support::parameter_types;
-
 type Block = runtime_types_common::BlockOf<Runtime, SignedExtra>;
 type Header = runtime_types_common::HeaderOf<Block>;
 type Extrinsic = runtime_types_common::ExtrinsicOf<Block>;
 
-// Some re-exports that the node side code needs to know. Some are useful in this context as well.
-pub type OpaqueBlock = runtime_types_common::OpaqueBlockOf<Runtime>;
-pub type AccountId = <Runtime as frame_system::Config>::AccountId;
-pub type Index = <Runtime as frame_system::Config>::Index;
-
-pub type RuntimeExecutive =
+type RuntimeExecutive =
 	Executive<Runtime, Block, frame_system::ChainContext<Runtime>, Runtime, AllPalletsWithSystem>;
 
 impl_runtime_apis! {
@@ -179,8 +171,22 @@ impl_runtime_apis! {
 		<Runtime as frame_system::Config>::AccountId,
 		<Runtime as frame_system::Config>::Index,
 	> for Runtime {
-		fn account_nonce(account: <Runtime as frame_system::Config>::AccountId) -> <Runtime as frame_system::Config>::Index {
+		fn account_nonce(account: interface::AccountId) -> interface::Index {
 			System::account_nonce(account)
 		}
 	}
+}
+
+/// Some re-exports that the node side code needs to know. Some are useful in this context as well.
+///
+/// Other types should preferably be private.
+// TODO: this should be standardized in some way, see:
+// https://github.com/paritytech/substrate/issues/10579#issuecomment-1600537558
+pub mod interface {
+	use super::*;
+
+	pub type OpaqueBlock = runtime_types_common::OpaqueBlockOf<Runtime>;
+	pub type AccountId = <Runtime as frame_system::Config>::AccountId;
+	pub type Index = <Runtime as frame_system::Config>::Index;
+	pub type Hash = <Runtime as frame_system::Config>::Hash;
 }

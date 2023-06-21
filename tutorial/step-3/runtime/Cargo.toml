@@ -5,10 +5,10 @@ edition = "2021"
 
 [dependencies]
 frame = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api", features = ["runtime"] }
-frame-pallets = { package = "step-3-frame-pallets", path = "../frame-pallets" }
-frame-support = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+pallets = { package = "step-3-pallets", path = "../pallets" }
 
 # TODO: https://github.com/paritytech/substrate/issues/14145
+frame-support = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
 sp-api = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api", default-features = false }
 
 # TODO: https://github.com/paritytech/substrate/issues/14127

@@ -5,7 +5,7 @@ edition = "2021"
 
 [dependencies]
 frame = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api", default-features = false, features = ["runtime"] }
-frame-pallets = { package = "step-6-frame-pallets", path = "../frame-pallets", default-features = false }
+pallets = { package = "step-6-pallets", path = "../pallets", default-features = false }
 
 # TODO: https://github.com/paritytech/substrate/issues/14145
 sp-api = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api", default-features = false }
@@ -21,8 +21,8 @@ substrate-wasm-builder = { git = "https://github.com/paritytech/substrate.git", 
 [features]
 default = ["std"]
 std = [
-	"frame-pallets/std",
 	"frame/std",
+	"pallets/std",
 
 	"sp-api/std",
 

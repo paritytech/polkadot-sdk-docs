@@ -1,5 +1,5 @@
 [package]
-name = "tutorial-node"
+name = "staging-node"
 version = "4.0.0-dev"
 description = "A fresh FRAME-based Substrate node, ready for hacking."
 authors = ["Substrate DevHub <https://github.com/substrate-developer-hub>"]
@@ -14,7 +14,7 @@ build = "build.rs"
 targets = ["x86_64-unknown-linux-gnu"]
 
 [[bin]]
-name = "tutorial-node"
+name = "staging-node"
 
 [dependencies]
 clap = { version = "4.0.9", features = ["derive"] }
@@ -22,6 +22,7 @@ futures = { version = "0.3.21", features = ["thread-pool"] }
 futures-timer = "3.0.1"
 jsonrpsee = { version = "0.16.2", features = ["server"] }
 
+# TODO: clean deps.
 
 sc-cli = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
 sc-executor = {  git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
@@ -30,7 +31,7 @@ sc-service = {  git = "https://github.com/paritytech/substrate.git", branch = "k
 sc-telemetry = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
 sc-transaction-pool = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
 sc-transaction-pool-api = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
-sc-consensus = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+sc-consensus = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" } # TODO: Naming of this crate is not aligned.
 sc-consensus-manual-seal = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
 sc-rpc-api = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
 sc-basic-authorship = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
@@ -44,8 +45,7 @@ sp-block-builder = { git = "https://github.com/paritytech/substrate.git", branch
 substrate-frame-rpc-system = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
 
 # Local Dependencies
-runtime = { package = "step-4-runtime", path = "../step-4/runtime" }
-
+runtime = { package = "staging-runtime", path = "../runtime" }
 frame = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
 
 [build-dependencies]

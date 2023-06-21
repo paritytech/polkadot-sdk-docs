@@ -3,29 +3,28 @@ resolver = "2"
 
 members = [
 	# all staging crates.
-	"staging/frame-pallets",
-	"staging/ink-contracts",
-	"staging/runtime-native",
+	"staging/pallets",
+	"staging/ink",
 	"staging/runtime",
-	"staging/node-manual-seal",
+	"staging/node",
 
 	# all tutorial steps
 	"tutorial/node",
 
-	"tutorial/step-0/frame-pallets",
-	"tutorial/step-1/frame-pallets",
-	"tutorial/step-2/frame-pallets",
+	"tutorial/step-0/pallets",
+	"tutorial/step-1/pallets",
+	"tutorial/step-2/pallets",
 
-	"tutorial/step-3/frame-pallets",
+	"tutorial/step-3/pallets",
 	"tutorial/step-3/runtime",
 
-	"tutorial/step-4/frame-pallets",
+	"tutorial/step-4/pallets",
 	"tutorial/step-4/runtime",
 
-	"tutorial/step-5/frame-pallets",
+	"tutorial/step-5/pallets",
 	"tutorial/step-5/runtime",
 
-	"tutorial/step-6/frame-pallets",
+	"tutorial/step-6/pallets",
 	"tutorial/step-6/runtime",
 ]
 

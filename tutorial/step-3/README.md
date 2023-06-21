@@ -1,6 +1,5 @@
 # Step 3
 
-
 In this step, we will expand our pallet to live in a basic runtime. We will do this one step at a
 time, and initially our runtime is not compiling to wasm.
 
