@@ -1,6 +1,7 @@
 # Step 4
 
-In this step, we will only tweak the existing runtime such that it will compile to WASM as well.
+In this step, we will only tweak the existing runtime such that it will compile to WASM as well. We
+also combine it with a substrate node template.
 
 - [Step 4](#step-4)
 	- [information Points](#information-points)

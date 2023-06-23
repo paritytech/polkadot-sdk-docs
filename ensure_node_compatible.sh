@@ -29,7 +29,10 @@ do
 
             if cargo test -p tutorial-node >/dev/null 2>&1; then
                 echo "✅ cargo test for ${dir} completed successfully"
+				cargo run -p tutorial-node -- build-spec --dev > tutorial/${dir}/dev.json 2>/dev/null
+				echo "✅ written chain spec to tutorial/${dir}/dev.json"
             else
+				echo "❌ cargo test for ${dir} completed with errors"
                 cargo test -p tutorial-node >/dev/null
             fi
 

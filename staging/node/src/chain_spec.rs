@@ -28,23 +28,6 @@ pub fn development_config() -> Result<ChainSpec, String> {
 	))
 }
 
-pub fn local_testnet_config() -> Result<ChainSpec, String> {
-	let wasm_binary = WASM_BINARY.ok_or_else(|| "Development wasm not available".to_string())?;
-
-	Ok(ChainSpec::from_genesis(
-		"Local Testnet",
-		"local_testnet",
-		ChainType::Local,
-		move || testnet_genesis(wasm_binary),
-		vec![],
-		None,
-		None,
-		None,
-		Some(props()),
-		None,
-	))
-}
-
 /// Configure initial storage state for FRAME modules.
 fn testnet_genesis(wasm_binary: &[u8]) -> RuntimeGenesisConfig {
 	use frame::traits::Get;

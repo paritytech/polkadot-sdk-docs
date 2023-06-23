@@ -13,7 +13,7 @@ In this step, we will start using `#[pallet::genesis]` features.
 ## In the code
 
 - Let's look at our `test_state()`. Not so pretty. Also, when we launched a node, it had no initial
-  balance. Can we do better? yes.
+  balance when we ran a node. Can we do better? yes.
 - start by adding `#[pallet::genesis_config]`. The fields of this struct are the pieces of
   information that your pallet expects to receive from someone (eg. a genesis chain specification).
   For our case, we expect to get a list of accounts and balances.

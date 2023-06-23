@@ -19,7 +19,7 @@ pub const VERSION: RuntimeVersion = RuntimeVersion {
 	spec_name: create_runtime_str!("minimal-runtime"),
 	impl_name: create_runtime_str!("minimal-runtime"),
 	authoring_version: 1,
-	spec_version: 100,
+	spec_version: 0,
 	impl_version: 1,
 	apis: RUNTIME_API_VERSIONS,
 	transaction_version: 1,
@@ -86,6 +86,7 @@ impl pallet_balances::Config for Runtime {
 	type RuntimeHoldReason = RuntimeHoldReason;
 	type DustRemoval = ();
 	type AccountStore = System;
+	type ExistentialDeposit = ();
 }
 
 #[derive_impl(pallet_sudo::config_preludes::SolochainDefaultConfig as pallet_sudo::DefaultConfig)]
