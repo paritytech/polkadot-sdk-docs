@@ -5,7 +5,6 @@ edition = "2021"
 
 [dependencies]
 frame = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api", default-features = false, features = ["runtime"] }
-frame-support = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api", default-features = false }
 
 pallets = { package = "staging-pallets", path = "../pallets", default-features = false }
 

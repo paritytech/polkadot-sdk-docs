@@ -8,7 +8,6 @@ edition = "2021"
 frame = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api", default-features = false, features = ["runtime"] }
 
 # TODO https://github.com/paritytech/substrate/issues/14127
-frame-support = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api", default-features = false }
 parity-scale-codec = { version = "3.0.0", default-features = false }
 scale-info = { version = "2.6.0", default-features = false }
 
@@ -16,7 +15,6 @@ scale-info = { version = "2.6.0", default-features = false }
 default = ["std"]
 std = [
 	"frame/std",
-	"frame-support/std",
 
 	"parity-scale-codec/std",
 	"scale-info/std",

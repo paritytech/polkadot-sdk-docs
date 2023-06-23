@@ -7,6 +7,5 @@ edition = "2021"
 frame = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
 
 # TODO https://github.com/paritytech/substrate/issues/14127
-frame-support = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
 parity-scale-codec = { version = "3.0.0" }
 scale-info = { version = "2.6.0" }

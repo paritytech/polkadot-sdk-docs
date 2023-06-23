@@ -26,7 +26,6 @@ std = [
 
 	"sp-api/std",
 
-	"frame-support/std",
 	"parity-scale-codec/std",
 	"scale-info/std",
 

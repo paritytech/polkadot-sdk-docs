@@ -14,9 +14,6 @@ use frame::{
 	},
 };
 
-// TODO: this is temp
-use frame::deps::frame_support;
-
 #[runtime_version]
 pub const VERSION: RuntimeVersion = RuntimeVersion {
 	spec_name: create_runtime_str!("minimal-runtime"),

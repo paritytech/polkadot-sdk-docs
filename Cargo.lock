@@ -7590,7 +7590,6 @@ name = "staging-pallets"
 version = "0.1.0"
 dependencies = [
  "frame",
- "frame-support",
  "parity-scale-codec",
  "scale-info",
 ]
@@ -7600,7 +7599,6 @@ name = "staging-runtime"
 version = "0.1.0"
 dependencies = [
  "frame",
- "frame-support",
  "pallet-balances",
  "pallet-sudo",
  "pallet-timestamp",
@@ -7651,7 +7649,6 @@ name = "step-0-pallets"
 version = "0.1.0"
 dependencies = [
  "frame",
- "frame-support",
  "parity-scale-codec",
  "scale-info",
 ]
@@ -7661,7 +7658,6 @@ name = "step-1-pallets"
 version = "0.1.0"
 dependencies = [
  "frame",
- "frame-support",
  "parity-scale-codec",
  "scale-info",
 ]
@@ -7671,7 +7667,6 @@ name = "step-2-pallets"
 version = "0.1.0"
 dependencies = [
  "frame",
- "frame-support",
  "parity-scale-codec",
  "scale-info",
 ]
@@ -7681,7 +7676,6 @@ name = "step-3-pallets"
 version = "0.1.0"
 dependencies = [
  "frame",
- "frame-support",
  "parity-scale-codec",
  "scale-info",
 ]
@@ -7691,7 +7685,6 @@ name = "step-3-runtime"
 version = "0.1.0"
 dependencies = [
  "frame",
- "frame-support",
  "parity-scale-codec",
  "scale-info",
  "sp-api",
@@ -7703,7 +7696,6 @@ name = "step-4-pallets"
 version = "0.1.0"
 dependencies = [
  "frame",
- "frame-support",
  "parity-scale-codec",
  "scale-info",
 ]
@@ -7713,7 +7705,6 @@ name = "step-4-runtime"
 version = "0.1.0"
 dependencies = [
  "frame",
- "frame-support",
  "parity-scale-codec",
  "scale-info",
  "sp-api",
@@ -7726,7 +7717,6 @@ name = "step-5-pallets"
 version = "0.1.0"
 dependencies = [
  "frame",
- "frame-support",
  "parity-scale-codec",
  "scale-info",
 ]
@@ -7749,7 +7739,6 @@ name = "step-6-pallets"
 version = "0.1.0"
 dependencies = [
  "frame",
- "frame-support",
  "parity-scale-codec",
  "scale-info",
 ]
@@ -7759,7 +7748,6 @@ name = "step-6-runtime"
 version = "0.1.0"
 dependencies = [
  "frame",
- "frame-support",
  "parity-scale-codec",
  "scale-info",
  "sp-api",
