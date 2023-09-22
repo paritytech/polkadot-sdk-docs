@@ -1,3 +1,20 @@
+// This file is part of Substrate.
+
+// Copyright (C) Parity Technologies (UK) Ltd.
+// SPDX-License-Identifier: Apache-2.0
+
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// 	http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 //! A collection of node-specific RPC methods.
 //! Substrate provides the `sc-rpc` crate, which defines the core RPC layer
 //! used by Substrate nodes. This file extends those RPC definitions with
@@ -6,7 +23,7 @@
 #![warn(missing_docs)]
 
 use jsonrpsee::RpcModule;
-use runtime::interface::{AccountId, Index, OpaqueBlock};
+use runtime::interface::{AccountId, Nonce, OpaqueBlock};
 use sc_transaction_pool_api::TransactionPool;
 use sp_block_builder::BlockBuilder;
 use sp_blockchain::{Error as BlockChainError, HeaderBackend, HeaderMetadata};
@@ -31,17 +48,17 @@ pub fn create_full<C, P>(
 where
 	C: sp_api::ProvideRuntimeApi<
 		// TODO: bloody hell..
-		frame::runtime::runtime_types_generic::Block<
-			frame::runtime::runtime_types_generic::Header<u32, frame::primitives::BlakeTwo256>,
-			frame::runtime::runtime_types_generic::OpaqueExtrinsic,
+		frame::deps::sp_runtime::generic::Block<
+			frame::deps::sp_runtime::generic::Header<u32, frame::primitives::BlakeTwo256>,
+			frame::deps::sp_runtime::OpaqueExtrinsic,
 		>,
 		// OpaqueBlock,
 	>,
 	C: HeaderBackend<OpaqueBlock> + HeaderMetadata<OpaqueBlock, Error = BlockChainError> + 'static,
 	C: Send + Sync + 'static,
-	C::Api: BlockBuilder<OpaqueBlock>,
 	P: TransactionPool + 'static,
-	C::Api: substrate_frame_rpc_system::AccountNonceApi<OpaqueBlock, AccountId, Index>,
+	C::Api: BlockBuilder<OpaqueBlock>,
+	C::Api: substrate_frame_rpc_system::AccountNonceApi<OpaqueBlock, AccountId, Nonce>,
 {
 	use substrate_frame_rpc_system::{System, SystemApiServer};
 
@@ -49,6 +66,7 @@ where
 	let FullDeps { client, pool, deny_unsafe } = deps;
 
 	module.merge(System::new(client.clone(), pool.clone(), deny_unsafe).into_rpc())?;
+	// NOTE: we have intentionally ignored adding tx-payments's custom RPC here.
 
 	Ok(module)
 }

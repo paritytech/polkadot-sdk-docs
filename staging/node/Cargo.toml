@@ -22,34 +22,35 @@ futures = { version = "0.3.21", features = ["thread-pool"] }
 futures-timer = "3.0.1"
 jsonrpsee = { version = "0.16.2", features = ["server"] }
 
-# TODO: clean deps.
+sc-cli = { git = "https://github.com/paritytech/polkadot-sdk.git", branch = "kiz-frame-api" }
+sc-executor = { git = "https://github.com/paritytech/polkadot-sdk.git", branch = "kiz-frame-api" }
+sc-network = { git = "https://github.com/paritytech/polkadot-sdk.git", branch = "kiz-frame-api" }
+sc-service = { git = "https://github.com/paritytech/polkadot-sdk.git", branch = "kiz-frame-api" }
+sc-telemetry = { git = "https://github.com/paritytech/polkadot-sdk.git", branch = "kiz-frame-api" }
+sc-transaction-pool = { git = "https://github.com/paritytech/polkadot-sdk.git", branch = "kiz-frame-api" }
+sc-transaction-pool-api = { git = "https://github.com/paritytech/polkadot-sdk.git", branch = "kiz-frame-api" }
+sc-consensus = { git = "https://github.com/paritytech/polkadot-sdk.git", branch = "kiz-frame-api" }
+sc-consensus-manual-seal = { git = "https://github.com/paritytech/polkadot-sdk.git", branch = "kiz-frame-api" }
+sc-rpc-api = { git = "https://github.com/paritytech/polkadot-sdk.git", branch = "kiz-frame-api" }
+sc-basic-authorship = { git = "https://github.com/paritytech/polkadot-sdk.git", branch = "kiz-frame-api" }
+sc-offchain = { git = "https://github.com/paritytech/polkadot-sdk.git", branch = "kiz-frame-api" }
+sc-client-api = { git = "https://github.com/paritytech/polkadot-sdk.git", branch = "kiz-frame-api" }
+sp-timestamp = { git = "https://github.com/paritytech/polkadot-sdk.git", branch = "kiz-frame-api" }
+sp-keyring = { git = "https://github.com/paritytech/polkadot-sdk.git", branch = "kiz-frame-api" }
+sp-api = { git = "https://github.com/paritytech/polkadot-sdk.git", branch = "kiz-frame-api" }
+sp-blockchain = { git = "https://github.com/paritytech/polkadot-sdk.git", branch = "kiz-frame-api" }
+sp-block-builder = { git = "https://github.com/paritytech/polkadot-sdk.git", branch = "kiz-frame-api" }
+sp-io = { git = "https://github.com/paritytech/polkadot-sdk.git", branch = "kiz-frame-api" }
 
-sc-cli = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
-sc-executor = {  git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
-sc-network = {  git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
-sc-service = {  git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
-sc-telemetry = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
-sc-transaction-pool = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
-sc-transaction-pool-api = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
-sc-consensus = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" } # TODO: Naming of this crate is not aligned.
-sc-consensus-manual-seal = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
-sc-rpc-api = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
-sc-basic-authorship = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
-
-sp-timestamp = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
-sp-keyring = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
-sp-api = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
-sp-blockchain = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
-sp-block-builder = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
-
-substrate-frame-rpc-system = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+substrate-frame-rpc-system = { git = "https://github.com/paritytech/polkadot-sdk.git", branch = "kiz-frame-api" }
 
 # Local Dependencies
 runtime = { package = "staging-runtime", path = "../runtime" }
-frame = { git = "https://github.com/paritytech/substrate.git", branch = "kiz-frame-api" }
+frame = { git = "https://github.com/paritytech/polkadot-sdk.git", branch = "kiz-frame-api" }
 
 [build-dependencies]
-substrate-build-script-utils = { version = "3.0.0", git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.42" }
+substrate-build-script-utils = { version = "3.0.0", git = "https://github.com/paritytech/polkadot-sdk.git", branch = "kiz-frame-api" }
 
 [features]
 default = []
+

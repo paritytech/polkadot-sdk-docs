@@ -1,15 +1,17 @@
-use frame::prelude::*;
+pub use pallet::*;
 
 #[frame::pallet(dev_mode)]
 pub mod pallet {
-	use super::*;
 	use crate::currency::pallet::{self as pallet_currency, Balance};
-	use frame::derive::{Decode, DefaultNoBound, Encode, TypeInfo};
+	use frame::{
+		derive::{Decode, DefaultNoBound, Encode, TypeInfo},
+		prelude::*,
+	};
 
 	#[pallet::config]
 	pub trait Config: frame_system::Config + pallet_currency::Config {
 		type ValidatorCount: Get<u32>;
-		type EraDuration: Get<Self::BlockNumber>;
+		type EraDuration: Get<BlockNumberFor<Self>>;
 	}
 
 	#[pallet::pallet]
@@ -37,8 +39,11 @@ pub mod pallet {
 		delegators: Vec<(T::AccountId, T::AccountId, Balance)>,
 	}
 
+	// TODO:
+	// https://github.com/paritytech/polkadot-sdk/pull/1642/files#diff-1a8ad3ec3e24e92089201972e112619421ef6c31484f65d45d30da7a8fae69fbR41
+	use frame::deps::sp_runtime;
 	#[pallet::genesis_build]
-	impl<T: Config> GenesisBuild<T> for GenesisConfig<T> {
+	impl<T: Config> BuildGenesisConfig for GenesisConfig<T> {
 		fn build(&self) {
 			use frame::deps::frame_support::assert_ok;
 			use frame_system::RawOrigin;
@@ -85,7 +90,7 @@ pub mod pallet {
 
 			Delegators::<T>::insert(&who, amount);
 			Validators::<T>::mutate(&to, |maybe_stake| {
-				maybe_stake.as_mut().map(|mut stake| stake.delegated += amount)
+				maybe_stake.as_mut().map(|stake| stake.delegated += amount)
 			});
 
 			Ok(())
@@ -93,8 +98,8 @@ pub mod pallet {
 	}
 
 	#[pallet::hooks]
-	impl<T: Config> Hooks<T::BlockNumber> for Pallet<T> {
-		fn on_initialize(now: T::BlockNumber) -> Weight {
+	impl<T: Config> Hooks<BlockNumberFor<T>> for Pallet<T> {
+		fn on_initialize(now: BlockNumberFor<T>) -> Weight {
 			use frame::traits::Zero;
 
 			if (now % T::EraDuration::get()).is_zero() && !now.is_zero() {
@@ -116,23 +121,17 @@ pub mod pallet {
 
 	#[cfg(test)]
 	mod tests {
-		use super::pallet as pallet_staking;
-		use crate::currency::pallet::{self as pallet_currency, Balance};
-		use frame::{prelude::*, testing_prelude::*};
+		use crate::{
+			currency::pallet::{self as pallet_currency, Balance},
+			staking::pallet::{self as pallet_staking, *},
+		};
+		use frame::testing_prelude::*;
 		use pallet_staking::{ActiveValidators, ValidatorStake, Validators};
 
-		type Extrinsic = MockUncheckedExtrinsic<Runtime>;
-		type Block = MockBlock<Runtime>;
+		type AccountId = <Runtime as frame_system::Config>::AccountId;
 
 		construct_runtime!(
-			pub struct Runtime
-			where
-				// TODO It really sucks that we have to specify these... but there is really no way.
-				// https://github.com/paritytech/substrate/issues/14126
-				Block = Block,
-				NodeBlock = Block,
-				UncheckedExtrinsic = Extrinsic,
-			{
+			pub struct Runtime {
 				System: frame_system,
 				Currency: pallet_currency,
 				Staking: pallet_staking,
@@ -141,19 +140,14 @@ pub mod pallet {
 
 		#[derive_impl(frame_system::config_preludes::TestDefaultConfig as frame_system::DefaultConfig)]
 		impl frame_system::Config for Runtime {
-			type BaseCallFilter = frame_support::traits::Everything;
-			type RuntimeOrigin = RuntimeOrigin;
-			type RuntimeCall = RuntimeCall;
-			type RuntimeEvent = RuntimeEvent;
-			type PalletInfo = PalletInfo;
-			type OnSetCode = ();
+			type Block = MockBlock<Runtime>;
 		}
 
 		// TODO: if we were to have private `struct` runtime, then these would also not need to be
 		// pub.
 		parameter_types! {
 			pub static ValidatorCount: u32 = 2;
-			pub const EraDuration: <Runtime as frame_system::Config>::BlockNumber = 3;
+			pub const EraDuration: BlockNumberFor<Runtime> = 3;
 		}
 
 		impl pallet_staking::Config for Runtime {
@@ -164,13 +158,9 @@ pub mod pallet {
 		impl pallet_currency::Config for Runtime {}
 
 		struct ExtBuilder {
-			validators: Vec<(<Runtime as frame_system::Config>::AccountId, Balance)>,
-			delegators: Vec<(
-				<Runtime as frame_system::Config>::AccountId,
-				<Runtime as frame_system::Config>::AccountId,
-				Balance,
-			)>,
-			balances: Vec<(<Runtime as frame_system::Config>::AccountId, Balance)>,
+			validators: Vec<(AccountId, Balance)>,
+			delegators: Vec<(AccountId, AccountId, Balance)>,
+			balances: Vec<(AccountId, Balance)>,
 		}
 
 		impl Default for ExtBuilder {
@@ -185,11 +175,7 @@ pub mod pallet {
 		}
 
 		impl ExtBuilder {
-			fn add_validator(
-				mut self,
-				validator: <Runtime as frame_system::Config>::AccountId,
-				self_stake: Balance,
-			) -> Self {
+			fn add_validator(mut self, validator: AccountId, self_stake: Balance) -> Self {
 				self.balances.push((validator, self_stake));
 				self.validators.push((validator, self_stake));
 				self
@@ -197,8 +183,8 @@ pub mod pallet {
 
 			fn add_delegator(
 				mut self,
-				delegator: <Runtime as frame_system::Config>::AccountId,
-				delegatee: <Runtime as frame_system::Config>::AccountId,
+				delegator: AccountId,
+				delegatee: AccountId,
 				stake: Balance,
 			) -> Self {
 				self.balances.push((delegator, stake));
