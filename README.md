@@ -1,4 +1,9 @@
-# polkadot-sdk-docs
+# DEPRECATED polkadot-sdk-docs
+
+> This reposityory was moslty used as an issue tracker and playground for what has come to fuitition in `polkadot-sdk` repository as `polkadot-sdk-docs` crate: https://paritytech.github.io/polkadot-sdk/master/polkadot_sdk_docs/index.html.
+
+--- 
+
 A holistic, minimal documentation portal for the Polkadot developers.
 
 ## Master Tutorial
